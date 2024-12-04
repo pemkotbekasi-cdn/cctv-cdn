@@ -1,0 +1,106 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Streaming Video</title>
+    <style>
+        body {
+            font-family: Arial, sans-serif;
+            margin: 0;
+            padding: 0;
+            display: flex;
+            flex-direction: column;
+            align-items: center;
+            justify-content: center;
+            min-height: 100vh;
+            background-color: #f4f4f9;
+        }
+        h1 {
+            margin: 0 0 20px;
+            font-size: 1.5rem;
+            text-align: center;
+        }
+        select {
+            width: 90%;
+            max-width: 400px;
+            padding: 10px;
+            font-size: 1rem;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            margin-bottom: 20px;
+        }
+        #video-container {
+            position: relative;
+            width: 90%;
+            max-width: 400px;
+            height: 225px;
+            background-size: cover;
+            background-position: center;
+            border: 1px solid #ddd;
+            border-radius: 8px;
+            overflow: hidden;
+            box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+        }
+        iframe {
+            width: 100%;
+            height: 100%;
+            border: none;
+        }
+    </style>
+</head>
+<body>
+    <h1>CCTV KOTA BEKASI</h1>
+    <select id="videoSelector">
+        <option value="" disabled selected>Pilih Lokasi</option>
+    </select>
+
+    <div id="video-container">
+        <iframe id="videoFrame" src="" style="display: none;"></iframe>
+    </div>
+    <p>Powerd by <a href="http://tvpeer.github.io/">TvPeer</a></p>
+    <script>
+        const selector = document.getElementById('videoSelector');
+        const videoContainer = document.getElementById('video-container');
+        const videoFrame = document.getElementById('videoFrame');
+        const baseURL = 'https://eofficev2.bekasikota.go.id/backupcctv/m3/';
+
+        // Fetch data from the given URL
+        fetch('https://eofficev2.bekasikota.go.id/backupcctv/m3/list.json')
+            .then(response => {
+                if (!response.ok) {
+                    throw new Error(`HTTP error! status: ${response.status}`);
+                }
+                return response.json();
+            })
+            .then(videoData => {
+                // Populate dropdown
+                videoData.forEach(video => {
+                    const option = document.createElement('option');
+                    option.value = video.path;
+                    option.textContent = (video.name).replaceAll("_"," ");
+                    selector.appendChild(option);
+                });
+
+                // Handle selection change
+                selector.addEventListener('change', (event) => {
+                    const selectedPath = event.target.value;
+                    const selectedVideo = videoData.find(video => video.path === selectedPath);
+
+                    if (selectedVideo) {
+                        // Set backdrop image
+                        videoContainer.style.backgroundImage = `url('${selectedVideo.pic}')`;
+
+                        // Load video in iframe
+                        const fullPath = baseURL + encodeURIComponent(selectedVideo.path);
+                        videoFrame.src = `http://tvpeer.github.io/embed/?u=${(fullPath)}`;
+                        videoFrame.style.display = 'block';
+                    }
+                });
+            })
+            .catch(error => {
+                console.error('Error fetching video data:', error);
+            });
+    </script>
+</body>
+</html>
