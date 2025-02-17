@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="id">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Realtime dB Meter dengan Visualisasi</title>
+    <style>
+        body { font-family: Arial, sans-serif; text-align: center; margin: 50px; }
+        .meter { width: 300px; height: 30px; background: #ccc; position: relative; margin: 20px auto; border-radius: 8px; overflow: hidden; }
+        .bar { height: 100%; width: 0%; background: limegreen; transition: width 0.1s; }
+        .db-text { margin-top: 10px; font-size: 18px; }
+    </style>
+</head>
+<body>
+    <h1>Realtime dB Meter dengan Visualisasi</h1>
+    <div class="meter">
+        <div class="bar" id="db-bar"></div>
+    </div>
+    <div class="db-text" id="db-level">Menunggu input suara...</div>
+
+    <script>
+        const dbData = []; // Menyimpan data dB untuk monitoring
+        let lastSendTime = Date.now();
+
+        async function startAudioMeter() {
+            try {
+                const stream = await navigator.mediaDevices.getUserMedia({ audio: true });
+                const audioContext = new AudioContext();
+                const source = audioContext.createMediaStreamSource(stream);
+                const analyser = audioContext.createAnalyser();
+
+                analyser.fftSize = 256;
+                const bufferLength = analyser.frequencyBinCount;
+                const dataArray = new Uint8Array(bufferLength);
+
+                source.connect(analyser);
+
+                function updateMeter() {
+                    analyser.getByteTimeDomainData(dataArray);
+
+                    let sum = 0;
+                    for (let i = 0; i < bufferLength; i++) {
+                        const value = (dataArray[i] / 128) - 1; // Normalisasi -1 sampai 1
+                        sum += value * value;
+                    }
+                    const rms = Math.sqrt(sum / bufferLength);
+                    const db = 20 * Math.log10(rms + 1e-8); // Hindari log(0)
+
+                    // Normalisasi untuk lebar bar (0 dB ke -60 dB)
+                    const normalDb = Math.max(-60, Math.min(0, db));
+                    const barWidth = ((normalDb + 60) / 60) * 100;
+
+                    document.getElementById('db-bar').style.width = `${barWidth}%`;
+                    document.getElementById('db-level').innerText = `Level dB: ${db.toFixed(2)} dB`;
+
+                    // Simpan data untuk monitoring
+                    dbData.push({ timestamp: Date.now(), db: db });
+
+                    // Kirim ke backend tiap 5 detik
+                    if (Date.now() - lastSendTime > 5000) {
+                        sendDataToBackend();
+                        lastSendTime = Date.now();
+                    }
+
+                    requestAnimationFrame(updateMeter);
+                }
+
+                updateMeter();
+            } catch (err) {
+                console.error('Gagal mengakses mikrofon:', err);
+            }
+        }
+
+        async function sendDataToBackend() {
+            if (dbData.length === 0) return;
+
+            try {
+                const response = await fetch('https://contoh-backend.com/api/db-data', {
+                    method: 'POST',
+                    headers: { 'Content-Type': 'application/json' },
+                    body: JSON.stringify({ data: dbData }),
+                });
+
+                if (response.ok) {
+                    console.log('Data berhasil dikirim');
+                    dbData.length = 0; // Kosongkan data setelah dikirim
+                } else {
+                    console.error('Gagal mengirim data');
+                }
+            } catch (error) {
+                console.error('Error mengirim data:', error);
+            }
+        }
+
+        startAudioMeter();
+    </script>
+</body>
+</html>
