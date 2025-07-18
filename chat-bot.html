@@ -1,0 +1,216 @@
+
+<!DOCTYPE html>
+<html lang="id">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot Input Suara & Teks</title>
+  <style>
+    body { font-family: sans-serif; padding: 2rem; background: #f4f4f4; }
+    #output {
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      min-height: 150px;
+      margin-bottom: 1rem;
+    }
+    textarea {
+      width: 100%;
+      height: 60px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #status { margin-bottom: 10px; font-style: italic; color: gray; }
+  </style>
+</head>
+<body>
+
+  <h2>🧠 Chatbot - Input Suara & Teks</h2>
+  <div id="output">Jawaban chatbot akan tampil di sini...</div>
+
+  <div id="status">Status: idle</div>
+  <textarea id="userInput" placeholder="Ketik pertanyaan..."></textarea><br>
+  <button onclick="startRecognition()">🎤 Gunakan Suara</button>
+  <button onclick="sendUserInput()">🚀 Kirim</button>
+
+  <script>
+
+    function stripMarkdown(text) {
+  return text
+    // Header, bold, italic, strikethrough
+    .replace(/[#_*~`>]+/g, '')
+    // Links: [teks](url) → teks
+    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+    // Images: ![alt](url) → ""
+    .replace(/!\[.*?\]\(.*?\)/g, '')
+    // Code blocks or inline code
+    .replace(/```[\s\S]*?```/g, '')
+    .replace(/`[^`]*`/g, '')
+    // List bullets or numbers
+    .replace(/^[-*+] /gm, '')
+    .replace(/^\d+\.\s+/gm, '')
+    // Extra whitespace
+    .replace(/\n{2,}/g, '\n')
+    .trim();
+}
+
+
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const userInput = document.getElementById('userInput');
+
+    const voiceQueue = [];
+    let isSpeaking = false;
+    let sentenceBuffer = '';
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'id-ID';
+      utterance.rate = 1.0;
+      utterance.onend = () => {
+        isSpeaking = false;
+        if (voiceQueue.length > 0) {
+          speak(voiceQueue.shift());
+        }
+      };
+      speechSynthesis.speak(utterance);
+      isSpeaking = true;
+    }
+function enqueueIfSentenceComplete(text) {
+  const plainText = stripMarkdown(text);
+  sentenceBuffer += plainText;
+
+  const matches = sentenceBuffer.match(/(.+?[.?!])(\s|$)/g);
+  if (matches) {
+    matches.forEach((fullSentence) => {
+      if (!isSpeaking && voiceQueue.length === 0) {
+        speak(fullSentence.trim());
+      } else {
+        voiceQueue.push(fullSentence.trim());
+      }
+    });
+    sentenceBuffer = sentenceBuffer.replace(/(.+?[.?!])(\s|$)/g, '');
+  }
+}
+
+
+    async function sendUserInput() {
+      const content = userInput.value.trim();
+      if (!content) return;
+      userInput.value = '';
+      output.textContent = '⏳ Menunggu jawaban...';
+      await callChatbot(content);
+    }
+
+    async function callChatbot(userMessage) {
+      sentenceBuffer = '';
+      const response = await fetch('http://localhost:1234/api/v0/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: "meta-llama-3.1-8b-instruct",
+          messages: [
+            { role: "system", content: "Always answer in rhymes." },
+                    {
+            role: "system",
+            content: "\n# 🧱 Fokus: Arsitektur SPBE Nasional  \n### Berdasarkan Perpres No. 132 Tahun 2022\n\n## 🔹 Definisi Arsitektur SPBE  \n**Arsitektur SPBE** adalah kerangka acuan yang menggambarkan struktur dan hubungan antar komponen utama sistem pemerintahan berbasis elektronik. Tujuannya adalah membangun sistem pemerintahan yang efisien, terintegrasi, aman, dan berorientasi pada layanan publik yang berkualitas.\n\n---\n\n## 🔹 Komponen Arsitektur SPBE (Pasal 3 & 4)\n\n### 1. Arsitektur Proses Bisnis\n**Deskripsi:**  \nMerupakan representasi terstruktur dari aktivitas, peran, dan alur kerja dalam penyelenggaraan pemerintahan. Fokus utamanya pada penyelarasan proses antar instansi untuk menghindari duplikasi layanan dan memastikan kolaborasi dalam pelayanan publik.\n\n**Tujuan:**\n- Meningkatkan efisiensi dan efektivitas penyelenggaraan pemerintahan.\n- Memastikan integrasi layanan antar instansi pemerintah.\n\n---\n\n### 2. Arsitektur Data dan Informasi\n**Deskripsi:**  \nMengatur pengelolaan, pertukaran, dan penggunaan data dan informasi antar instansi. Arsitektur ini menjamin kualitas, konsistensi, dan keterpaduan data dalam mendukung pengambilan keputusan.\n\n**Prinsip:**\n- Menerapkan standar metadata nasional.\n- Mendukung interoperabilitas data.\n- Mengacu pada prinsip One Data Indonesia.\n\n---\n\n### 3. Arsitektur Layanan SPBE\n**Deskripsi:**  \nMenentukan jenis, cakupan, dan struktur layanan digital yang disediakan pemerintah. Layanan dibagi menjadi internal (antar instansi), administratif (untuk keperluan tata kelola), dan publik (untuk masyarakat).\n\n**Manfaat:**\n- Memudahkan masyarakat mengakses layanan pemerintah.\n- Mendorong efisiensi dan transparansi layanan publik.\n\n---\n\n### 4. Arsitektur Aplikasi SPBE\n**Deskripsi:**  \nMengatur penggunaan dan pengembangan aplikasi yang mendukung layanan dan proses pemerintahan. Dibagi menjadi aplikasi umum, khusus, dan pendukung sesuai kebutuhan instansi.\n\n**Karakteristik:**\n- Mendorong penggunaan aplikasi berbagi pakai.\n- Menyederhanakan pengelolaan sistem informasi pemerintahan.\n- Memastikan kompatibilitas dan integrasi antaraplikasi.\n\n---\n\n### 5. Arsitektur Infrastruktur SPBE\n**Deskripsi:**  \nMencakup perangkat keras, jaringan, dan sumber daya komputasi yang dibutuhkan dalam menjalankan sistem SPBE. Menitikberatkan pada pemanfaatan Pusat Data Nasional dan layanan cloud.\n\n**Komponen Utama:**\n- Pusat data pemerintah.\n- Infrastruktur TIK berbasis cloud.\n- Interkoneksi antar layanan pusat dan daerah.\n\n---\n\n### 6. Arsitektur Keamanan SPBE\n**Deskripsi:**  \nMerupakan kebijakan dan mekanisme teknis untuk melindungi sistem, layanan, dan data dari ancaman keamanan siber. Mengedepankan pendekatan berbasis risiko dan prinsip zero-trust.\n\n**Fokus Pengamanan:**\n- Data pribadi dan sensitif.\n- Sistem layanan utama.\n- Infrastruktur jaringan.\n\n---\n\n## 🔹 Prinsip Desain Arsitektur SPBE (Pasal 5)\nArsitektur SPBE wajib mengacu pada prinsip-prinsip berikut:\n1. **Interoperabilitas**: Sistem mampu bertukar dan memanfaatkan informasi antar instansi.\n2. **Integrasi**: Layanan dan data terhubung tanpa duplikasi.\n3. **Efisiensi**: Mengoptimalkan biaya dan sumber daya.\n4. **Keamanan**: Menjaga kerahasiaan dan integritas sistem.\n5. **Berbasis Risiko**: Mengelola potensi ancaman terhadap sistem SPBE.\n6. **Fleksibilitas dan Skalabilitas**: Mudah dikembangkan seiring kebutuhan dan teknologi.\n7. **Berorientasi Pengguna**: Sistem mendukung kemudahan dan kenyamanan masyarakat.\n\n---\n\n## 🔹 Penyesuaian Arsitektur Instansi (Pasal 6–7)\n**Deskripsi:**  \nInstansi pusat dan daerah wajib menyusun arsitektur internal yang selaras dengan Arsitektur SPBE Nasional. Ini mencakup evaluasi kesenjangan, penyesuaian sistem eksisting, serta pemutakhiran berkelanjutan.\n\n---\n\n## 🔹 Penerapan & Pemetaan (Pasal 8–9)\n**Deskripsi:**  \nArsitektur SPBE menjadi landasan dalam membangun sistem dan layanan baru. Instansi harus menyusun peta rencana pengembangan SPBE yang selaras dengan roadmap nasional.\n\n**Dokumen Pemetaan:**\n- Dokumen Arsitektur SPBE Instansi.\n- Peta Rencana SPBE Instansi.\n\n---\n\n## 🔹 Kewajiban Dokumentasi\nInstansi wajib menyampaikan:\n- **Dokumen Arsitektur SPBE Instansi**: Merinci struktur sistem dan komponennya.\n- **Peta Rencana SPBE**: Menjabarkan tahapan implementasi dan target layanan digital.\n\n---\n\n## 🔹 Evaluasi dan Pengendalian (Pasal 10)\nEvaluasi dilakukan oleh KemenPAN-RB terhadap:\n- Kepatuhan arsitektur instansi terhadap standar nasional.\n- Efektivitas sistem dan pemanfaatan layanan.\n- Dampak terhadap peningkatan kualitas layanan publik.\n\n---\n\n## 🔹 Sanksi & Koreksi\nInstansi yang tidak menyesuaikan arsitekturnya dapat dikenakan:\n- Teguran administratif.\n- Pemotongan dukungan anggaran atau teknis.\n- Rekomendasi pembinaan atau perbaikan sistem.\n\n---\n\n## 🔹 Kunci Sukses Implementasi Arsitektur SPBE\n✅ Dukungan kepemimpinan dan regulasi.  \n✅ Ketersediaan SDM dan anggaran.  \n✅ Koordinasi antarsektor dan instansi.  \n✅ Teknologi yang handal dan aman.  \n✅ Monitoring dan evaluasi berkelanjutan.  \n\n\n\n# 🧱 Fokus: Arsitektur SPBE Nasional  \n### Berdasarkan Perpres No. 132 Tahun 2022\n\n## 🔹 Definisi Arsitektur SPBE  \nArsitektur SPBE adalah **kerangka dasar** yang digunakan sebagai acuan dalam membangun dan mengembangkan sistem pemerintahan berbasis elektronik yang **terpadu, terstandar, dan terukur**.\n\n## 🔹 Komponen Arsitektur SPBE (Pasal 3 & 4)\n\n### 1. Arsitektur Proses Bisnis\n- Penyederhanaan dan penyelarasan proses kerja antar instansi.\n- Dibuat berdasarkan prinsip interoperabilitas dan efektivitas layanan.\n- Fokus pada kolaborasi lintas fungsi dan pengurangan duplikasi proses.\n\n### 2. Arsitektur Data dan Informasi\n- Mewajibkan penggunaan **metadata terstandar**.\n- Menjamin konsistensi, keamanan, keterpaduan, dan kualitas data.\n- Mendukung prinsip **One Data Indonesia**: satu data, satu sumber, satu standar.\n\n### 3. Arsitektur Layanan SPBE\n- Penyusunan katalog layanan pemerintah.\n- Layanan dikelompokkan dalam: layanan internal, layanan administratif, dan layanan publik.\n- Fokus pada integrasi layanan lintas sektor dan kemudahan akses masyarakat.\n\n### 4. Arsitektur Aplikasi SPBE\n- Aplikasi dikelompokkan dalam: aplikasi umum, aplikasi khusus, dan aplikasi pendukung.\n- Dorongan untuk **penggunaan ulang (reuse)** dan **berbagi pakai (shared services)**.\n- Didasarkan pada kebutuhan layanan dan peta proses bisnis instansi.\n\n### 5. Arsitektur Infrastruktur SPBE\n- Mendorong pemanfaatan **Pusat Data Nasional (PDN)** dan layanan komputasi awan pemerintah.\n- Infrastruktur harus mendukung skalabilitas, ketersediaan tinggi, dan keberlanjutan.\n- Perlu adanya **interoperabilitas antar infrastruktur** pusat dan daerah.\n\n### 6. Arsitektur Keamanan SPBE\n- Pendekatan keamanan menyeluruh (holistik).\n- Mengacu pada prinsip **zero-trust security** dan manajemen risiko siber.\n- Pengamanan diterapkan pada data, aplikasi, infrastruktur, dan pengguna.\n\n## 🔹 Prinsip Desain Arsitektur SPBE (Pasal 5)\n- **Interoperabilitas dan Integrasi** antar sistem.\n- **Keterpaduan Layanan dan Data.**\n- **Efisiensi Biaya** dan sumber daya.\n- **Keamanan dan Keandalan.**\n- **Berbasis Risiko.**\n- **Skalabilitas dan Fleksibilitas.**\n- **Berorientasi pada Pengguna.**\n\n## 🔹 Penyesuaian Arsitektur Instansi (Pasal 6–7)\n- Instansi pusat/daerah wajib menyesuaikan arsitektur internal dengan Arsitektur SPBE Nasional.\n- Penyesuaian dilakukan melalui:\n  - Analisis kesenjangan (gap analysis),\n  - Penyusunan dokumen arsitektur instansi,\n  - Pemutakhiran berkelanjutan sesuai perkembangan teknologi dan kebutuhan.\n\n## 🔹 Penerapan & Pemetaan (Pasal 8–9)\n- Arsitektur SPBE digunakan sebagai **acuan dalam perencanaan dan pembangunan sistem informasi**.\n- Menjadi dasar untuk menyusun **peta rencana SPBE instansi**, yang mencakup:\n  - Proyeksi sistem,\n  - Roadmap transformasi digital,\n  - Target integrasi layanan dan data.\n\n## 🔹 Kewajiban Dokumentasi\n- Setiap instansi wajib menyusun:\n  - **Dokumen Arsitektur SPBE Instansi**\n  - **Peta Rencana SPBE**\n- Disampaikan ke Kementerian PANRB secara berkala untuk evaluasi dan pengendalian.\n\n## 🔹 Evaluasi dan Pengendalian (Pasal 10)\n- Evaluasi dilakukan secara berkala terhadap:\n  - Kesesuaian dengan arsitektur nasional,\n  - Implementasi sistem,\n  - Pencapaian efisiensi dan efektivitas.\n\n## 🔹 Sanksi & Koreksi\n- Instansi yang tidak menyesuaikan arsitektur SPBE-nya akan diberikan **rekomendasi perbaikan**.\n- Kegagalan berkelanjutan dapat memengaruhi dukungan anggaran atau program strategis instansi tersebut.\n\n## 🔹 Kunci Sukses Implementasi Arsitektur SPBE\n✅ Kepemimpinan yang kuat dan berkomitmen  \n✅ Koordinasi lintas sektor dan daerah  \n✅ SDM yang kompeten di bidang TIK dan manajemen arsitektur  \n✅ Tata kelola dan kebijakan pendukung yang konsisten  \n✅ Monitoring dan evaluasi berbasis kinerja \n"
+        },
+                    { role: "system", content: "i will use raw text format, not markdown!" },
+
+            { role: "user", content: userMessage }
+            
+          ],
+          temperature: 0,
+          max_tokens: -1,
+          stream: true
+        })
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let partial = '';
+      output.textContent = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        partial += chunk;
+        const lines = partial.split('\n');
+        partial = lines.pop();
+
+        for (const line of lines) {
+          if (!line.startsWith('data:')) continue;
+          const jsonStr = line.slice(5).trim();
+          if (jsonStr === '[DONE]') {
+            if (sentenceBuffer.trim()) enqueueIfSentenceComplete('.');
+            return;
+          }
+
+          try {
+            const data = JSON.parse(jsonStr);
+            const content = data?.choices?.[0]?.delta?.content;
+            if (content) {
+              output.textContent += content;
+              enqueueIfSentenceComplete(content);
+            }
+          } catch (e) {
+            console.warn('Parsing error:', e);
+          }
+        }
+      }
+    }
+
+    function startRecognition() {
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Speech Recognition tidak didukung browser ini.");
+        return;
+      }
+
+      const recognition = new SpeechRecognition();
+      recognition.lang = 'id-ID';
+      recognition.interimResults = false;
+      recognition.maxAlternatives = 1;
+
+      recognition.onstart = () => {
+        status.textContent = "Status: Mendengarkan...";
+      };
+
+      recognition.onresult = (event) => {
+        const text = event.results[0][0].transcript;
+        userInput.value = text;
+        status.textContent = "Status: Selesai mendengar.";
+        sendUserInput();
+      };
+
+      recognition.onerror = (event) => {
+        status.textContent = `Status: Error - ${event.error}`;
+      };
+
+      recognition.onend = () => {
+        if (status.textContent.includes('Mendengarkan')) {
+          status.textContent = "Status: Tidak ada suara terdeteksi.";
+        }
+      };
+
+      recognition.start();
+    }
+  </script>
+</body>
+</html>
