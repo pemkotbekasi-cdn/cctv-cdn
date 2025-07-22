@@ -66,6 +66,14 @@
   <button onclick="sendUserInput()">🚀 Kirim</button>
 
   <script>
+
+    document.body.addEventListener('click', () => {
+  const test = new SpeechSynthesisUtterance(' ');
+  test.volume = 0;
+  window.speechSynthesis.speak(test);
+}, { once: true });
+
+    
     const output = document.getElementById('output');
     const status = document.getElementById('status');
     const userInput = document.getElementById('userInput');
