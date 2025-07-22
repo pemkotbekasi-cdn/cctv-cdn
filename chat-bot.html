@@ -142,9 +142,136 @@
         body: JSON.stringify({
           model: "meta-llama-3.1-8b-instruct",
           messages: [
-            { role: "system", content: "Always answer in rhymes." },
-            { role: "user", content: userMessage }
-          ],
+                            {
+                                role: "system",
+                                content: "Always answer in rhymes."
+                            }, {
+                                role: "system",
+                                content: "\n# 🧱 Fokus: Arsitektur SPBE Nasional  \n### Berdasarkan Perpres No. 132 Tahu" +
+                                        "n 2022\n\n## 🔹 Definisi Arsitektur SPBE  \n**Arsitektur SPBE** adalah kerangk" +
+                                        "a acuan yang menggambarkan struktur dan hubungan antar komponen utama sistem p" +
+                                        "emerintahan berbasis elektronik. Tujuannya adalah membangun sistem pemerintaha" +
+                                        "n yang efisien, terintegrasi, aman, dan berorientasi pada layanan publik yang " +
+                                        "berkualitas.\n\n---\n\n## 🔹 Komponen Arsitektur SPBE (Pasal 3 & 4)\n\n### 1. " +
+                                        "Arsitektur Proses Bisnis\n**Deskripsi:**  \nMerupakan representasi terstruktur" +
+                                        " dari aktivitas, peran, dan alur kerja dalam penyelenggaraan pemerintahan. Fok" +
+                                        "us utamanya pada penyelarasan proses antar instansi untuk menghindari duplikas" +
+                                        "i layanan dan memastikan kolaborasi dalam pelayanan publik.\n\n**Tujuan:**\n- " +
+                                        "Meningkatkan efisiensi dan efektivitas penyelenggaraan pemerintahan.\n- Memast" +
+                                        "ikan integrasi layanan antar instansi pemerintah.\n\n---\n\n### 2. Arsitektur " +
+                                        "Data dan Informasi\n**Deskripsi:**  \nMengatur pengelolaan, pertukaran, dan pe" +
+                                        "nggunaan data dan informasi antar instansi. Arsitektur ini menjamin kualitas, " +
+                                        "konsistensi, dan keterpaduan data dalam mendukung pengambilan keputusan.\n\n**" +
+                                        "Prinsip:**\n- Menerapkan standar metadata nasional.\n- Mendukung interoperabil" +
+                                        "itas data.\n- Mengacu pada prinsip One Data Indonesia.\n\n---\n\n### 3. Arsite" +
+                                        "ktur Layanan SPBE\n**Deskripsi:**  \nMenentukan jenis, cakupan, dan struktur l" +
+                                        "ayanan digital yang disediakan pemerintah. Layanan dibagi menjadi internal (an" +
+                                        "tar instansi), administratif (untuk keperluan tata kelola), dan publik (untuk " +
+                                        "masyarakat).\n\n**Manfaat:**\n- Memudahkan masyarakat mengakses layanan pemeri" +
+                                        "ntah.\n- Mendorong efisiensi dan transparansi layanan publik.\n\n---\n\n### 4." +
+                                        " Arsitektur Aplikasi SPBE\n**Deskripsi:**  \nMengatur penggunaan dan pengemban" +
+                                        "gan aplikasi yang mendukung layanan dan proses pemerintahan. Dibagi menjadi ap" +
+                                        "likasi umum, khusus, dan pendukung sesuai kebutuhan instansi.\n\n**Karakterist" +
+                                        "ik:**\n- Mendorong penggunaan aplikasi berbagi pakai.\n- Menyederhanakan penge" +
+                                        "lolaan sistem informasi pemerintahan.\n- Memastikan kompatibilitas dan integra" +
+                                        "si antaraplikasi.\n\n---\n\n### 5. Arsitektur Infrastruktur SPBE\n**Deskripsi:" +
+                                        "**  \nMencakup perangkat keras, jaringan, dan sumber daya komputasi yang dibut" +
+                                        "uhkan dalam menjalankan sistem SPBE. Menitikberatkan pada pemanfaatan Pusat Da" +
+                                        "ta Nasional dan layanan cloud.\n\n**Komponen Utama:**\n- Pusat data pemerintah" +
+                                        ".\n- Infrastruktur TIK berbasis cloud.\n- Interkoneksi antar layanan pusat dan" +
+                                        " daerah.\n\n---\n\n### 6. Arsitektur Keamanan SPBE\n**Deskripsi:**  \nMerupaka" +
+                                        "n kebijakan dan mekanisme teknis untuk melindungi sistem, layanan, dan data da" +
+                                        "ri ancaman keamanan siber. Mengedepankan pendekatan berbasis risiko dan prinsi" +
+                                        "p zero-trust.\n\n**Fokus Pengamanan:**\n- Data pribadi dan sensitif.\n- Sistem" +
+                                        " layanan utama.\n- Infrastruktur jaringan.\n\n---\n\n## 🔹 Prinsip Desain Arsi" +
+                                        "tektur SPBE (Pasal 5)\nArsitektur SPBE wajib mengacu pada prinsip-prinsip beri" +
+                                        "kut:\n1. **Interoperabilitas**: Sistem mampu bertukar dan memanfaatkan informa" +
+                                        "si antar instansi.\n2. **Integrasi**: Layanan dan data terhubung tanpa duplika" +
+                                        "si.\n3. **Efisiensi**: Mengoptimalkan biaya dan sumber daya.\n4. **Keamanan**:" +
+                                        " Menjaga kerahasiaan dan integritas sistem.\n5. **Berbasis Risiko**: Mengelola" +
+                                        " potensi ancaman terhadap sistem SPBE.\n6. **Fleksibilitas dan Skalabilitas**:" +
+                                        " Mudah dikembangkan seiring kebutuhan dan teknologi.\n7. **Berorientasi Penggu" +
+                                        "na**: Sistem mendukung kemudahan dan kenyamanan masyarakat.\n\n---\n\n## 🔹 Pe" +
+                                        "nyesuaian Arsitektur Instansi (Pasal 6–7)\n**Deskripsi:**  \nInstansi pusat da" +
+                                        "n daerah wajib menyusun arsitektur internal yang selaras dengan Arsitektur SPB" +
+                                        "E Nasional. Ini mencakup evaluasi kesenjangan, penyesuaian sistem eksisting, s" +
+                                        "erta pemutakhiran berkelanjutan.\n\n---\n\n## 🔹 Penerapan & Pemetaan (Pasal 8" +
+                                        "–9)\n**Deskripsi:**  \nArsitektur SPBE menjadi landasan dalam membangun sistem" +
+                                        " dan layanan baru. Instansi harus menyusun peta rencana pengembangan SPBE yang" +
+                                        " selaras dengan roadmap nasional.\n\n**Dokumen Pemetaan:**\n- Dokumen Arsitekt" +
+                                        "ur SPBE Instansi.\n- Peta Rencana SPBE Instansi.\n\n---\n\n## 🔹 Kewajiban Dok" +
+                                        "umentasi\nInstansi wajib menyampaikan:\n- **Dokumen Arsitektur SPBE Instansi**" +
+                                        ": Merinci struktur sistem dan komponennya.\n- **Peta Rencana SPBE**: Menjabark" +
+                                        "an tahapan implementasi dan target layanan digital.\n\n---\n\n## 🔹 Evaluasi d" +
+                                        "an Pengendalian (Pasal 10)\nEvaluasi dilakukan oleh KemenPAN-RB terhadap:\n- K" +
+                                        "epatuhan arsitektur instansi terhadap standar nasional.\n- Efektivitas sistem " +
+                                        "dan pemanfaatan layanan.\n- Dampak terhadap peningkatan kualitas layanan publi" +
+                                        "k.\n\n---\n\n## 🔹 Sanksi & Koreksi\nInstansi yang tidak menyesuaikan arsitekt" +
+                                        "urnya dapat dikenakan:\n- Teguran administratif.\n- Pemotongan dukungan anggar" +
+                                        "an atau teknis.\n- Rekomendasi pembinaan atau perbaikan sistem.\n\n---\n\n## �" +
+                                        "� Kunci Sukses Implementasi Arsitektur SPBE\n✅ Dukungan kepemimpinan dan regul" +
+                                        "asi.  \n✅ Ketersediaan SDM dan anggaran.  \n✅ Koordinasi antarsektor dan insta" +
+                                        "nsi.  \n✅ Teknologi yang handal dan aman.  \n✅ Monitoring dan evaluasi berkela" +
+                                        "njutan.  \n\n\n\n# 🧱 Fokus: Arsitektur SPBE Nasional  \n### Berdasarkan Perpr" +
+                                        "es No. 132 Tahun 2022\n\n## 🔹 Definisi Arsitektur SPBE  \nArsitektur SPBE ada" +
+                                        "lah **kerangka dasar** yang digunakan sebagai acuan dalam membangun dan mengem" +
+                                        "bangkan sistem pemerintahan berbasis elektronik yang **terpadu, terstandar, da" +
+                                        "n terukur**.\n\n## 🔹 Komponen Arsitektur SPBE (Pasal 3 & 4)\n\n### 1. Arsitek" +
+                                        "tur Proses Bisnis\n- Penyederhanaan dan penyelarasan proses kerja antar instan" +
+                                        "si.\n- Dibuat berdasarkan prinsip interoperabilitas dan efektivitas layanan.\n" +
+                                        "- Fokus pada kolaborasi lintas fungsi dan pengurangan duplikasi proses.\n\n###" +
+                                        " 2. Arsitektur Data dan Informasi\n- Mewajibkan penggunaan **metadata terstand" +
+                                        "ar**.\n- Menjamin konsistensi, keamanan, keterpaduan, dan kualitas data.\n- Me" +
+                                        "ndukung prinsip **One Data Indonesia**: satu data, satu sumber, satu standar." +
+                                        "\n\n### 3. Arsitektur Layanan SPBE\n- Penyusunan katalog layanan pemerintah.\n" +
+                                        "- Layanan dikelompokkan dalam: layanan internal, layanan administratif, dan la" +
+                                        "yanan publik.\n- Fokus pada integrasi layanan lintas sektor dan kemudahan akse" +
+                                        "s masyarakat.\n\n### 4. Arsitektur Aplikasi SPBE\n- Aplikasi dikelompokkan dal" +
+                                        "am: aplikasi umum, aplikasi khusus, dan aplikasi pendukung.\n- Dorongan untuk " +
+                                        "**penggunaan ulang (reuse)** dan **berbagi pakai (shared services)**.\n- Didas" +
+                                        "arkan pada kebutuhan layanan dan peta proses bisnis instansi.\n\n### 5. Arsite" +
+                                        "ktur Infrastruktur SPBE\n- Mendorong pemanfaatan **Pusat Data Nasional (PDN)**" +
+                                        " dan layanan komputasi awan pemerintah.\n- Infrastruktur harus mendukung skala" +
+                                        "bilitas, ketersediaan tinggi, dan keberlanjutan.\n- Perlu adanya **interoperab" +
+                                        "ilitas antar infrastruktur** pusat dan daerah.\n\n### 6. Arsitektur Keamanan S" +
+                                        "PBE\n- Pendekatan keamanan menyeluruh (holistik).\n- Mengacu pada prinsip **ze" +
+                                        "ro-trust security** dan manajemen risiko siber.\n- Pengamanan diterapkan pada " +
+                                        "data, aplikasi, infrastruktur, dan pengguna.\n\n## 🔹 Prinsip Desain Arsitektu" +
+                                        "r SPBE (Pasal 5)\n- **Interoperabilitas dan Integrasi** antar sistem.\n- **Ket" +
+                                        "erpaduan Layanan dan Data.**\n- **Efisiensi Biaya** dan sumber daya.\n- **Keam" +
+                                        "anan dan Keandalan.**\n- **Berbasis Risiko.**\n- **Skalabilitas dan Fleksibili" +
+                                        "tas.**\n- **Berorientasi pada Pengguna.**\n\n## 🔹 Penyesuaian Arsitektur Inst" +
+                                        "ansi (Pasal 6–7)\n- Instansi pusat/daerah wajib menyesuaikan arsitektur intern" +
+                                        "al dengan Arsitektur SPBE Nasional.\n- Penyesuaian dilakukan melalui:\n  - Ana" +
+                                        "lisis kesenjangan (gap analysis),\n  - Penyusunan dokumen arsitektur instansi," +
+                                        "\n  - Pemutakhiran berkelanjutan sesuai perkembangan teknologi dan kebutuhan." +
+                                        "\n\n## 🔹 Penerapan & Pemetaan (Pasal 8–9)\n- Arsitektur SPBE digunakan sebaga" +
+                                        "i **acuan dalam perencanaan dan pembangunan sistem informasi**.\n- Menjadi das" +
+                                        "ar untuk menyusun **peta rencana SPBE instansi**, yang mencakup:\n  - Proyeksi" +
+                                        " sistem,\n  - Roadmap transformasi digital,\n  - Target integrasi layanan dan " +
+                                        "data.\n\n## 🔹 Kewajiban Dokumentasi\n- Setiap instansi wajib menyusun:\n  - *" +
+                                        "*Dokumen Arsitektur SPBE Instansi**\n  - **Peta Rencana SPBE**\n- Disampaikan " +
+                                        "ke Kementerian PANRB secara berkala untuk evaluasi dan pengendalian.\n\n## 🔹 " +
+                                        "Evaluasi dan Pengendalian (Pasal 10)\n- Evaluasi dilakukan secara berkala terh" +
+                                        "adap:\n  - Kesesuaian dengan arsitektur nasional,\n  - Implementasi sistem,\n " +
+                                        " - Pencapaian efisiensi dan efektivitas.\n\n## 🔹 Sanksi & Koreksi\n- Instansi" +
+                                        " yang tidak menyesuaikan arsitektur SPBE-nya akan diberikan **rekomendasi perb" +
+                                        "aikan**.\n- Kegagalan berkelanjutan dapat memengaruhi dukungan anggaran atau p" +
+                                        "rogram strategis instansi tersebut.\n\n## 🔹 Kunci Sukses Implementasi Arsitek" +
+                                        "tur SPBE\n✅ Kepemimpinan yang kuat dan berkomitmen  \n✅ Koordinasi lintas sekt" +
+                                        "or dan daerah  \n✅ SDM yang kompeten di bidang TIK dan manajemen arsitektur  " +
+                                        "\n✅ Tata kelola dan kebijakan pendukung yang konsisten  \n✅ Monitoring dan eva" +
+                                        "luasi berbasis kinerja \n"
+                            }, {
+                                role: "system",
+                                content: "i will use raw text format, not markdown!"
+                            }, {
+                                role: "user",
+                                content: userMessage
+                            }
+
+                        ],
+                       ,
           temperature: 0,
           max_tokens: -1,
           stream: true
