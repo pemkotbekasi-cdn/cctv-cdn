@@ -191,48 +191,65 @@
         startRecognition();
       }
     }
+    
+function startRecognition() {
+  abortSpeech();
+  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+  if (!SpeechRecognition) {
+    alert("Speech Recognition tidak didukung browser ini.");
+    return;
+  }
 
-    function startRecognition() {
-      abortSpeech();
-      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-      if (!SpeechRecognition) {
-        alert("Speech Recognition tidak didukung browser ini.");
-        return;
+  recognitionInstance = new SpeechRecognition();
+  recognitionInstance.lang = 'id-ID';
+  recognitionInstance.interimResults = true; // ✅ Aktifkan hasil sementara
+  recognitionInstance.maxAlternatives = 1;
+
+  recognitionInstance.onstart = () => {
+    isListening = true;
+    status.textContent = "Status: Mendengarkan...";
+    updateVoiceButton(true);
+  };
+
+  recognitionInstance.onresult = (event) => {
+    let interimTranscript = '';
+    let finalTranscript = '';
+
+    for (let i = event.resultIndex; i < event.results.length; i++) {
+      const transcript = event.results[i][0].transcript;
+      if (event.results[i].isFinal) {
+        finalTranscript += transcript;
+      } else {
+        interimTranscript += transcript;
       }
-
-      recognitionInstance = new SpeechRecognition();
-      recognitionInstance.lang = 'id-ID';
-      recognitionInstance.interimResults = false;
-      recognitionInstance.maxAlternatives = 1;
-
-      recognitionInstance.onstart = () => {
-        isListening = true;
-        status.textContent = "Status: Mendengarkan...";
-        updateVoiceButton(true);
-      };
-
-      recognitionInstance.onresult = (event) => {
-        const text = event.results[0][0].transcript;
-        userInput.value = text;
-        status.textContent = "Status: Selesai mendengar.";
-        stopRecognition();
-        sendUserInput();
-      };
-
-      recognitionInstance.onerror = (event) => {
-        status.textContent = `Status: Error - ${event.error}`;
-        stopRecognition();
-      };
-
-      recognitionInstance.onend = () => {
-        if (isListening) {
-          status.textContent = "Status: Tidak ada suara terdeteksi.";
-          stopRecognition();
-        }
-      };
-
-      recognitionInstance.start();
     }
+
+    // Tampilkan transkrip di textarea saat bicara
+    userInput.value = finalTranscript + interimTranscript;
+
+    // Jika final selesai, otomatis kirim
+    if (finalTranscript.trim() !== '') {
+      status.textContent = "Status: Selesai mendengar.";
+      stopRecognition();
+      sendUserInput();
+    }
+  };
+
+  recognitionInstance.onerror = (event) => {
+    status.textContent = `Status: Error - ${event.error}`;
+    stopRecognition();
+  };
+
+  recognitionInstance.onend = () => {
+    if (isListening) {
+      status.textContent = "Status: Tidak ada suara terdeteksi.";
+      stopRecognition();
+    }
+  };
+
+  recognitionInstance.start();
+}
+
 
     function stopRecognition() {
       if (recognitionInstance) {
