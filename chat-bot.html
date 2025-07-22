@@ -1,367 +1,259 @@
 <!DOCTYPE html>
 <html lang="id">
-    <head>
-        <meta charset="UTF-8">
-        <title>Chatbot Input Suara & Teks</title>
-        <style>
-            body {
-                font-family: sans-serif;
-                padding: 2rem;
-                background: #f4f4f4;
+<head>
+  <meta charset="UTF-8" />
+  <title>Chatbot Input Suara & Teks</title>
+  <style>
+    body {
+      font-family: sans-serif;
+      padding: 2rem;
+      background: #f4f4f4;
+    }
+    #output {
+      white-space: pre-wrap;
+      background: #fff;
+      padding: 1rem;
+      border-radius: 8px;
+      border: 1px solid #ccc;
+      min-height: 150px;
+      margin-bottom: 1rem;
+    }
+    textarea {
+      width: 100%;
+      height: 60px;
+      padding: 0.5rem;
+      font-size: 1rem;
+      margin-bottom: 1rem;
+    }
+    button {
+      padding: 0.5rem 1rem;
+      margin-right: 0.5rem;
+      font-size: 1rem;
+      border-radius: 5px;
+      border: none;
+      background-color: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    button:hover {
+      background-color: #0056b3;
+    }
+    #status {
+      margin-bottom: 10px;
+      font-style: italic;
+      color: gray;
+    }
+
+    .listening {
+      animation: zoom 1s infinite;
+      background-color: red !important;
+    }
+
+    @keyframes zoom {
+      0% { transform: scale(1); }
+      50% { transform: scale(1.2); }
+      100% { transform: scale(1); }
+    }
+  </style>
+</head>
+<body>
+  <h2>🧠 Chatbot - Input Suara & Teks</h2>
+  <div id="output">Jawaban chatbot akan tampil di sini...</div>
+
+  <div id="status">Status: idle</div>
+  <textarea id="userInput" placeholder="Ketik pertanyaan..."></textarea><br>
+  <button id="voiceButton" onclick="toggleRecognition()">🎤 Gunakan Suara</button>
+  <button onclick="sendUserInput()">🚀 Kirim</button>
+
+  <script>
+    const output = document.getElementById('output');
+    const status = document.getElementById('status');
+    const userInput = document.getElementById('userInput');
+
+    const voiceQueue = [];
+    let isSpeaking = false;
+    let sentenceBuffer = '';
+    let recognitionInstance = null;
+    let isListening = false;
+
+    function abortSpeech() {
+      speechSynthesis.cancel();
+      voiceQueue.length = 0;
+      isSpeaking = false;
+    }
+
+    function stripMarkdown(text) {
+      return text
+        .replace(/[#_*~`>]+/g, '')
+        .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
+        .replace(/!\[.*?\]\(.*?\)/g, '')
+        .replace(/```[\s\S]*?```/g, '')
+        .replace(/`[^`]*`/g, '')
+        .replace(/^[-*+] /gm, '')
+        .replace(/^\d+\.\s+/gm, '')
+        .replace(/\n{2,}/g, '\n')
+        .trim();
+    }
+
+    function speak(text) {
+      const utterance = new SpeechSynthesisUtterance(text);
+      utterance.lang = 'id-ID';
+      utterance.rate = 1.0;
+      utterance.onend = () => {
+        isSpeaking = false;
+        if (voiceQueue.length > 0) {
+          speak(voiceQueue.shift());
+        }
+      };
+      speechSynthesis.speak(utterance);
+      isSpeaking = true;
+    }
+
+    function enqueueIfSentenceComplete(text) {
+      const plainText = stripMarkdown(text);
+      sentenceBuffer += plainText;
+      const matches = sentenceBuffer.match(/(.+?[.?!])(\s|$)/g);
+      if (matches) {
+        matches.forEach((sentence) => {
+          if (!isSpeaking && voiceQueue.length === 0) {
+            speak(sentence.trim());
+          } else {
+            voiceQueue.push(sentence.trim());
+          }
+        });
+        sentenceBuffer = sentenceBuffer.replace(/(.+?[.?!])(\s|$)/g, '');
+      }
+    }
+
+    async function sendUserInput() {
+      abortSpeech();
+      const content = userInput.value.trim();
+      if (!content) return;
+      userInput.value = '';
+      output.textContent = '⏳ Menunggu jawaban...';
+      await callChatbot(content);
+    }
+
+    async function callChatbot(userMessage) {
+      sentenceBuffer = '';
+      const response = await fetch('https://myllm.nusantaracode.com/api/v0/chat/completions', {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify({
+          model: "meta-llama-3.1-8b-instruct",
+          messages: [
+            { role: "system", content: "Always answer in rhymes." },
+            { role: "user", content: userMessage }
+          ],
+          temperature: 0,
+          max_tokens: -1,
+          stream: true
+        })
+      });
+
+      const reader = response.body.getReader();
+      const decoder = new TextDecoder('utf-8');
+      let partial = '';
+      output.textContent = '';
+
+      while (true) {
+        const { done, value } = await reader.read();
+        if (done) break;
+        const chunk = decoder.decode(value, { stream: true });
+        partial += chunk;
+        const lines = partial.split('\n');
+        partial = lines.pop();
+        for (const line of lines) {
+          if (!line.startsWith('data:')) continue;
+          const jsonStr = line.slice(5).trim();
+          if (jsonStr === '[DONE]') {
+            if (sentenceBuffer.trim()) enqueueIfSentenceComplete('.');
+            return;
+          }
+          try {
+            const data = JSON.parse(jsonStr);
+            const content = data?.choices?.[0]?.delta?.content;
+            if (content) {
+              output.textContent += content;
+              enqueueIfSentenceComplete(content);
             }
-            #output {
-                white-space: pre-wrap;
-                background: #fff;
-                padding: 1rem;
-                border-radius: 8px;
-                border: 1px solid #ccc;
-                min-height: 150px;
-                margin-bottom: 1rem;
-            }
-            textarea {
-                width: 100%;
-                height: 60px;
-                padding: 0.5rem;
-                font-size: 1rem;
-                margin-bottom: 1rem;
-            }
-            button {
-                padding: 0.5rem 1rem;
-                margin-right: 0.5rem;
-                font-size: 1rem;
-                border-radius: 5px;
-                border: none;
-                background-color: #007bff;
-                color: white;
-                cursor: pointer;
-            }
-            button:hover {
-                background-color: #0056b3;
-            }
-            #status {
-                margin-bottom: 10px;
-                font-style: italic;
-                color: gray;
-            }
-        </style>
-    </head>
-    <body>
+          } catch (e) {
+            console.warn('Parsing error:', e);
+          }
+        }
+      }
+    }
 
-        <h2>🧠 Chatbot - Input Suara & Teks</h2>
-        <div id="output">Jawaban chatbot akan tampil di sini...</div>
+    function toggleRecognition() {
+      if (isListening) {
+        stopRecognition();
+      } else {
+        startRecognition();
+      }
+    }
 
-        <div id="status">Status: idle</div>
-        <textarea id="userInput" placeholder="Ketik pertanyaan..."></textarea><br>
-        <button onclick="startRecognition()">🎤 Gunakan Suara</button>
-        <button onclick="sendUserInput()">🚀 Kirim</button>
+    function startRecognition() {
+      abortSpeech();
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Speech Recognition tidak didukung browser ini.");
+        return;
+      }
 
-        <script>
+      recognitionInstance = new SpeechRecognition();
+      recognitionInstance.lang = 'id-ID';
+      recognitionInstance.interimResults = false;
+      recognitionInstance.maxAlternatives = 1;
 
-            function abortSpeech() {
-                speechSynthesis.cancel(); // Hentikan suara yang sedang diputar
-                voiceQueue.length = 0; // Kosongkan antrian
-                isSpeaking = false;
-            }
+      recognitionInstance.onstart = () => {
+        isListening = true;
+        status.textContent = "Status: Mendengarkan...";
+        updateVoiceButton(true);
+      };
 
-            function stripMarkdown(text) {
-                return text
-                // Header, bold, italic, strikethrough
-                    .replace(/[#_*~`>]+/g, '')
-                    // Links: [teks](url) → teks
-                    .replace(/\[([^\]]+)\]\([^)]+\)/g, '$1')
-                    // Images: ![alt](url) → ""
-                    .replace(/!\[.*?\]\(.*?\)/g, '')
-                    // Code blocks or inline code
-                    .replace(/```[\s\S]*?```/g, '')
-                    .replace(/`[^`]*`/g, '')
-                    // List bullets or numbers
-                    .replace(/^[-*+] /gm, '')
-                    .replace(/^\d+\.\s+/gm, '')
-                    // Extra whitespace
-                    .replace(/\n{2,}/g, '\n')
-                    .trim();
-            }
+      recognitionInstance.onresult = (event) => {
+        const text = event.results[0][0].transcript;
+        userInput.value = text;
+        status.textContent = "Status: Selesai mendengar.";
+        stopRecognition();
+        sendUserInput();
+      };
 
-            const output = document.getElementById('output');
-            const status = document.getElementById('status');
-            const userInput = document.getElementById('userInput');
+      recognitionInstance.onerror = (event) => {
+        status.textContent = `Status: Error - ${event.error}`;
+        stopRecognition();
+      };
 
-            const voiceQueue = [];
-            let isSpeaking = false;
-            let sentenceBuffer = '';
+      recognitionInstance.onend = () => {
+        if (isListening) {
+          status.textContent = "Status: Tidak ada suara terdeteksi.";
+          stopRecognition();
+        }
+      };
 
-            function speak(text) {
-                const utterance = new SpeechSynthesisUtterance(text);
-                utterance.lang = 'id-ID';
-                utterance.rate = 1.0;
-                utterance.onend = () => {
-                    isSpeaking = false;
-                    if (voiceQueue.length > 0) {
-                        speak(voiceQueue.shift());
-                    }
-                };
-                speechSynthesis.speak(utterance);
-                isSpeaking = true;
-            }
-            function enqueueIfSentenceComplete(text) {
-                const plainText = stripMarkdown(text);
-                sentenceBuffer += plainText;
+      recognitionInstance.start();
+    }
 
-                const matches = sentenceBuffer.match(/(.+?[.?!])(\s|$)/g);
-                if (matches) {
-                    matches.forEach((fullSentence) => {
-                        if (!isSpeaking && voiceQueue.length === 0) {
-                            speak(fullSentence.trim());
-                        } else {
-                            voiceQueue.push(fullSentence.trim());
-                        }
-                    });
-                    sentenceBuffer = sentenceBuffer.replace(/(.+?[.?!])(\s|$)/g, '');
-                }
-            }
+    function stopRecognition() {
+      if (recognitionInstance) {
+        recognitionInstance.stop();
+        recognitionInstance = null;
+      }
+      isListening = false;
+      updateVoiceButton(false);
+      status.textContent = "Status: idle";
+    }
 
-            async function sendUserInput() {
-                abortSpeech(); // <- Tambahkan ini
-                const content = userInput
-                    .value
-                    .trim();
-                if (!content) 
-                    return;
-                userInput.value = '';
-                output.textContent = '⏳ Menunggu jawaban...';
-                await callChatbot(content);
-            }
-
-            async function callChatbot(userMessage) {
-                sentenceBuffer = '';
-                const response = await fetch('https://myllm.nusantaracode.com/api/v0/chat/completions', {
-                    method: 'POST',
-                    headers: {
-                        'Content-Type': 'application/json'
-                    },
-                    body: JSON.stringify({
-                        model: "meta-llama-3.1-8b-instruct",
-                        messages: [
-                            {
-                                role: "system",
-                                content: "Always answer in rhymes."
-                            }, {
-                                role: "system",
-                                content: "\n# 🧱 Fokus: Arsitektur SPBE Nasional  \n### Berdasarkan Perpres No. 132 Tahu" +
-                                        "n 2022\n\n## 🔹 Definisi Arsitektur SPBE  \n**Arsitektur SPBE** adalah kerangk" +
-                                        "a acuan yang menggambarkan struktur dan hubungan antar komponen utama sistem p" +
-                                        "emerintahan berbasis elektronik. Tujuannya adalah membangun sistem pemerintaha" +
-                                        "n yang efisien, terintegrasi, aman, dan berorientasi pada layanan publik yang " +
-                                        "berkualitas.\n\n---\n\n## 🔹 Komponen Arsitektur SPBE (Pasal 3 & 4)\n\n### 1. " +
-                                        "Arsitektur Proses Bisnis\n**Deskripsi:**  \nMerupakan representasi terstruktur" +
-                                        " dari aktivitas, peran, dan alur kerja dalam penyelenggaraan pemerintahan. Fok" +
-                                        "us utamanya pada penyelarasan proses antar instansi untuk menghindari duplikas" +
-                                        "i layanan dan memastikan kolaborasi dalam pelayanan publik.\n\n**Tujuan:**\n- " +
-                                        "Meningkatkan efisiensi dan efektivitas penyelenggaraan pemerintahan.\n- Memast" +
-                                        "ikan integrasi layanan antar instansi pemerintah.\n\n---\n\n### 2. Arsitektur " +
-                                        "Data dan Informasi\n**Deskripsi:**  \nMengatur pengelolaan, pertukaran, dan pe" +
-                                        "nggunaan data dan informasi antar instansi. Arsitektur ini menjamin kualitas, " +
-                                        "konsistensi, dan keterpaduan data dalam mendukung pengambilan keputusan.\n\n**" +
-                                        "Prinsip:**\n- Menerapkan standar metadata nasional.\n- Mendukung interoperabil" +
-                                        "itas data.\n- Mengacu pada prinsip One Data Indonesia.\n\n---\n\n### 3. Arsite" +
-                                        "ktur Layanan SPBE\n**Deskripsi:**  \nMenentukan jenis, cakupan, dan struktur l" +
-                                        "ayanan digital yang disediakan pemerintah. Layanan dibagi menjadi internal (an" +
-                                        "tar instansi), administratif (untuk keperluan tata kelola), dan publik (untuk " +
-                                        "masyarakat).\n\n**Manfaat:**\n- Memudahkan masyarakat mengakses layanan pemeri" +
-                                        "ntah.\n- Mendorong efisiensi dan transparansi layanan publik.\n\n---\n\n### 4." +
-                                        " Arsitektur Aplikasi SPBE\n**Deskripsi:**  \nMengatur penggunaan dan pengemban" +
-                                        "gan aplikasi yang mendukung layanan dan proses pemerintahan. Dibagi menjadi ap" +
-                                        "likasi umum, khusus, dan pendukung sesuai kebutuhan instansi.\n\n**Karakterist" +
-                                        "ik:**\n- Mendorong penggunaan aplikasi berbagi pakai.\n- Menyederhanakan penge" +
-                                        "lolaan sistem informasi pemerintahan.\n- Memastikan kompatibilitas dan integra" +
-                                        "si antaraplikasi.\n\n---\n\n### 5. Arsitektur Infrastruktur SPBE\n**Deskripsi:" +
-                                        "**  \nMencakup perangkat keras, jaringan, dan sumber daya komputasi yang dibut" +
-                                        "uhkan dalam menjalankan sistem SPBE. Menitikberatkan pada pemanfaatan Pusat Da" +
-                                        "ta Nasional dan layanan cloud.\n\n**Komponen Utama:**\n- Pusat data pemerintah" +
-                                        ".\n- Infrastruktur TIK berbasis cloud.\n- Interkoneksi antar layanan pusat dan" +
-                                        " daerah.\n\n---\n\n### 6. Arsitektur Keamanan SPBE\n**Deskripsi:**  \nMerupaka" +
-                                        "n kebijakan dan mekanisme teknis untuk melindungi sistem, layanan, dan data da" +
-                                        "ri ancaman keamanan siber. Mengedepankan pendekatan berbasis risiko dan prinsi" +
-                                        "p zero-trust.\n\n**Fokus Pengamanan:**\n- Data pribadi dan sensitif.\n- Sistem" +
-                                        " layanan utama.\n- Infrastruktur jaringan.\n\n---\n\n## 🔹 Prinsip Desain Arsi" +
-                                        "tektur SPBE (Pasal 5)\nArsitektur SPBE wajib mengacu pada prinsip-prinsip beri" +
-                                        "kut:\n1. **Interoperabilitas**: Sistem mampu bertukar dan memanfaatkan informa" +
-                                        "si antar instansi.\n2. **Integrasi**: Layanan dan data terhubung tanpa duplika" +
-                                        "si.\n3. **Efisiensi**: Mengoptimalkan biaya dan sumber daya.\n4. **Keamanan**:" +
-                                        " Menjaga kerahasiaan dan integritas sistem.\n5. **Berbasis Risiko**: Mengelola" +
-                                        " potensi ancaman terhadap sistem SPBE.\n6. **Fleksibilitas dan Skalabilitas**:" +
-                                        " Mudah dikembangkan seiring kebutuhan dan teknologi.\n7. **Berorientasi Penggu" +
-                                        "na**: Sistem mendukung kemudahan dan kenyamanan masyarakat.\n\n---\n\n## 🔹 Pe" +
-                                        "nyesuaian Arsitektur Instansi (Pasal 6–7)\n**Deskripsi:**  \nInstansi pusat da" +
-                                        "n daerah wajib menyusun arsitektur internal yang selaras dengan Arsitektur SPB" +
-                                        "E Nasional. Ini mencakup evaluasi kesenjangan, penyesuaian sistem eksisting, s" +
-                                        "erta pemutakhiran berkelanjutan.\n\n---\n\n## 🔹 Penerapan & Pemetaan (Pasal 8" +
-                                        "–9)\n**Deskripsi:**  \nArsitektur SPBE menjadi landasan dalam membangun sistem" +
-                                        " dan layanan baru. Instansi harus menyusun peta rencana pengembangan SPBE yang" +
-                                        " selaras dengan roadmap nasional.\n\n**Dokumen Pemetaan:**\n- Dokumen Arsitekt" +
-                                        "ur SPBE Instansi.\n- Peta Rencana SPBE Instansi.\n\n---\n\n## 🔹 Kewajiban Dok" +
-                                        "umentasi\nInstansi wajib menyampaikan:\n- **Dokumen Arsitektur SPBE Instansi**" +
-                                        ": Merinci struktur sistem dan komponennya.\n- **Peta Rencana SPBE**: Menjabark" +
-                                        "an tahapan implementasi dan target layanan digital.\n\n---\n\n## 🔹 Evaluasi d" +
-                                        "an Pengendalian (Pasal 10)\nEvaluasi dilakukan oleh KemenPAN-RB terhadap:\n- K" +
-                                        "epatuhan arsitektur instansi terhadap standar nasional.\n- Efektivitas sistem " +
-                                        "dan pemanfaatan layanan.\n- Dampak terhadap peningkatan kualitas layanan publi" +
-                                        "k.\n\n---\n\n## 🔹 Sanksi & Koreksi\nInstansi yang tidak menyesuaikan arsitekt" +
-                                        "urnya dapat dikenakan:\n- Teguran administratif.\n- Pemotongan dukungan anggar" +
-                                        "an atau teknis.\n- Rekomendasi pembinaan atau perbaikan sistem.\n\n---\n\n## �" +
-                                        "� Kunci Sukses Implementasi Arsitektur SPBE\n✅ Dukungan kepemimpinan dan regul" +
-                                        "asi.  \n✅ Ketersediaan SDM dan anggaran.  \n✅ Koordinasi antarsektor dan insta" +
-                                        "nsi.  \n✅ Teknologi yang handal dan aman.  \n✅ Monitoring dan evaluasi berkela" +
-                                        "njutan.  \n\n\n\n# 🧱 Fokus: Arsitektur SPBE Nasional  \n### Berdasarkan Perpr" +
-                                        "es No. 132 Tahun 2022\n\n## 🔹 Definisi Arsitektur SPBE  \nArsitektur SPBE ada" +
-                                        "lah **kerangka dasar** yang digunakan sebagai acuan dalam membangun dan mengem" +
-                                        "bangkan sistem pemerintahan berbasis elektronik yang **terpadu, terstandar, da" +
-                                        "n terukur**.\n\n## 🔹 Komponen Arsitektur SPBE (Pasal 3 & 4)\n\n### 1. Arsitek" +
-                                        "tur Proses Bisnis\n- Penyederhanaan dan penyelarasan proses kerja antar instan" +
-                                        "si.\n- Dibuat berdasarkan prinsip interoperabilitas dan efektivitas layanan.\n" +
-                                        "- Fokus pada kolaborasi lintas fungsi dan pengurangan duplikasi proses.\n\n###" +
-                                        " 2. Arsitektur Data dan Informasi\n- Mewajibkan penggunaan **metadata terstand" +
-                                        "ar**.\n- Menjamin konsistensi, keamanan, keterpaduan, dan kualitas data.\n- Me" +
-                                        "ndukung prinsip **One Data Indonesia**: satu data, satu sumber, satu standar." +
-                                        "\n\n### 3. Arsitektur Layanan SPBE\n- Penyusunan katalog layanan pemerintah.\n" +
-                                        "- Layanan dikelompokkan dalam: layanan internal, layanan administratif, dan la" +
-                                        "yanan publik.\n- Fokus pada integrasi layanan lintas sektor dan kemudahan akse" +
-                                        "s masyarakat.\n\n### 4. Arsitektur Aplikasi SPBE\n- Aplikasi dikelompokkan dal" +
-                                        "am: aplikasi umum, aplikasi khusus, dan aplikasi pendukung.\n- Dorongan untuk " +
-                                        "**penggunaan ulang (reuse)** dan **berbagi pakai (shared services)**.\n- Didas" +
-                                        "arkan pada kebutuhan layanan dan peta proses bisnis instansi.\n\n### 5. Arsite" +
-                                        "ktur Infrastruktur SPBE\n- Mendorong pemanfaatan **Pusat Data Nasional (PDN)**" +
-                                        " dan layanan komputasi awan pemerintah.\n- Infrastruktur harus mendukung skala" +
-                                        "bilitas, ketersediaan tinggi, dan keberlanjutan.\n- Perlu adanya **interoperab" +
-                                        "ilitas antar infrastruktur** pusat dan daerah.\n\n### 6. Arsitektur Keamanan S" +
-                                        "PBE\n- Pendekatan keamanan menyeluruh (holistik).\n- Mengacu pada prinsip **ze" +
-                                        "ro-trust security** dan manajemen risiko siber.\n- Pengamanan diterapkan pada " +
-                                        "data, aplikasi, infrastruktur, dan pengguna.\n\n## 🔹 Prinsip Desain Arsitektu" +
-                                        "r SPBE (Pasal 5)\n- **Interoperabilitas dan Integrasi** antar sistem.\n- **Ket" +
-                                        "erpaduan Layanan dan Data.**\n- **Efisiensi Biaya** dan sumber daya.\n- **Keam" +
-                                        "anan dan Keandalan.**\n- **Berbasis Risiko.**\n- **Skalabilitas dan Fleksibili" +
-                                        "tas.**\n- **Berorientasi pada Pengguna.**\n\n## 🔹 Penyesuaian Arsitektur Inst" +
-                                        "ansi (Pasal 6–7)\n- Instansi pusat/daerah wajib menyesuaikan arsitektur intern" +
-                                        "al dengan Arsitektur SPBE Nasional.\n- Penyesuaian dilakukan melalui:\n  - Ana" +
-                                        "lisis kesenjangan (gap analysis),\n  - Penyusunan dokumen arsitektur instansi," +
-                                        "\n  - Pemutakhiran berkelanjutan sesuai perkembangan teknologi dan kebutuhan." +
-                                        "\n\n## 🔹 Penerapan & Pemetaan (Pasal 8–9)\n- Arsitektur SPBE digunakan sebaga" +
-                                        "i **acuan dalam perencanaan dan pembangunan sistem informasi**.\n- Menjadi das" +
-                                        "ar untuk menyusun **peta rencana SPBE instansi**, yang mencakup:\n  - Proyeksi" +
-                                        " sistem,\n  - Roadmap transformasi digital,\n  - Target integrasi layanan dan " +
-                                        "data.\n\n## 🔹 Kewajiban Dokumentasi\n- Setiap instansi wajib menyusun:\n  - *" +
-                                        "*Dokumen Arsitektur SPBE Instansi**\n  - **Peta Rencana SPBE**\n- Disampaikan " +
-                                        "ke Kementerian PANRB secara berkala untuk evaluasi dan pengendalian.\n\n## 🔹 " +
-                                        "Evaluasi dan Pengendalian (Pasal 10)\n- Evaluasi dilakukan secara berkala terh" +
-                                        "adap:\n  - Kesesuaian dengan arsitektur nasional,\n  - Implementasi sistem,\n " +
-                                        " - Pencapaian efisiensi dan efektivitas.\n\n## 🔹 Sanksi & Koreksi\n- Instansi" +
-                                        " yang tidak menyesuaikan arsitektur SPBE-nya akan diberikan **rekomendasi perb" +
-                                        "aikan**.\n- Kegagalan berkelanjutan dapat memengaruhi dukungan anggaran atau p" +
-                                        "rogram strategis instansi tersebut.\n\n## 🔹 Kunci Sukses Implementasi Arsitek" +
-                                        "tur SPBE\n✅ Kepemimpinan yang kuat dan berkomitmen  \n✅ Koordinasi lintas sekt" +
-                                        "or dan daerah  \n✅ SDM yang kompeten di bidang TIK dan manajemen arsitektur  " +
-                                        "\n✅ Tata kelola dan kebijakan pendukung yang konsisten  \n✅ Monitoring dan eva" +
-                                        "luasi berbasis kinerja \n"
-                            }, {
-                                role: "system",
-                                content: "i will use raw text format, not markdown!"
-                            }, {
-                                role: "user",
-                                content: userMessage
-                            }
-
-                        ],
-                        temperature: 0,
-                        max_tokens: -1,
-                        stream: true
-                    })
-                });
-
-                const reader = response
-                    .body
-                    .getReader();
-                const decoder = new TextDecoder('utf-8');
-                let partial = '';
-                output.textContent = '';
-
-                while (true) {
-                    const {done, value} = await reader.read();
-                    if (done) 
-                        break;
-                    const chunk = decoder.decode(value, {stream: true});
-                    partial += chunk;
-                    const lines = partial.split('\n');
-                    partial = lines.pop();
-
-                    for (const line of lines) {
-                        if (!line.startsWith('data:')) 
-                            continue;
-                        const jsonStr = line
-                            .slice(5)
-                            .trim();
-                        if (jsonStr === '[DONE]') {
-                            if (sentenceBuffer.trim()) 
-                                enqueueIfSentenceComplete('.');
-                            return;
-                        }
-
-                        try {
-                            const data = JSON.parse(jsonStr);
-                            const content = data
-                                ?.choices
-                                    ?.[0]
-                                        ?.delta
-                                            ?.content;
-                            if (content) {
-                                output.textContent += content;
-                                enqueueIfSentenceComplete(content);
-                            }
-                        } catch (e) {
-                            console.warn('Parsing error:', e);
-                        }
-                    }
-                }
-            }
-
-            function startRecognition() {
-                abortSpeech(); // <- Tambahkan ini
-
-                const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-                if (!SpeechRecognition) {
-                    alert("Speech Recognition tidak didukung browser ini.");
-                    return;
-                }
-
-                const recognition = new SpeechRecognition();
-                recognition.lang = 'id-ID';
-                recognition.interimResults = false;
-                recognition.maxAlternatives = 1;
-
-                recognition.onstart = () => {
-                    status.textContent = "Status: Mendengarkan...";
-                };
-
-                recognition.onresult = (event) => {
-                    const text = event
-                        .results[0][0]
-                        .transcript;
-                    userInput.value = text;
-                    status.textContent = "Status: Selesai mendengar.";
-                    sendUserInput();
-                };
-
-                recognition.onerror = (event) => {
-                    status.textContent = `Status: Error - ${event.error}`;
-                };
-
-                recognition.onend = () => {
-                    if (status.textContent.includes('Mendengarkan')) {
-                        status.textContent = "Status: Tidak ada suara terdeteksi.";
-                    }
-                };
-
-                recognition.start();
-            }
-        </script>
-    </body>
+    function updateVoiceButton(active) {
+      const btn = document.getElementById('voiceButton');
+      if (active) {
+        btn.textContent = '🛑 Berhenti Mendengarkan';
+        btn.classList.add('listening');
+      } else {
+        btn.textContent = '🎤 Gunakan Suara';
+        btn.classList.remove('listening');
+      }
+    }
+  </script>
+</body>
 </html>
