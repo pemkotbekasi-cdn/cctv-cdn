@@ -2,7 +2,7 @@
 <html lang="id">
 <head>
   <meta charset="UTF-8" />
-  <title>Chatbot Input Suara & Teks</title>
+  <title>Chatbot Suara & Teks (Mobile-Ready)</title>
   <style>
     body {
       font-family: sans-serif;
@@ -57,23 +57,15 @@
   </style>
 </head>
 <body>
-  <h2>🧠 Chatbot - Input Suara & Teks</h2>
+  <h2>🧠 Chatbot Suara & Teks (Mobile Friendly)</h2>
   <div id="output">Jawaban chatbot akan tampil di sini...</div>
-
   <div id="status">Status: idle</div>
+
   <textarea id="userInput" placeholder="Ketik pertanyaan..."></textarea><br>
   <button id="voiceButton" onclick="toggleRecognition()">🎤 Gunakan Suara</button>
   <button onclick="sendUserInput()">🚀 Kirim</button>
 
   <script>
-
-    document.body.addEventListener('click', () => {
-  const test = new SpeechSynthesisUtterance(' ');
-  test.volume = 0;
-  window.speechSynthesis.speak(test);
-}, { once: true });
-
-    
     const output = document.getElementById('output');
     const status = document.getElementById('status');
     const userInput = document.getElementById('userInput');
@@ -83,6 +75,13 @@
     let sentenceBuffer = '';
     let recognitionInstance = null;
     let isListening = false;
+
+    // ✅ Unblock speechSynthesis on mobile
+    document.body.addEventListener('click', () => {
+      const unlock = new SpeechSynthesisUtterance(" ");
+      unlock.volume = 0;
+      speechSynthesis.speak(unlock);
+    }, { once: true });
 
     function abortSpeech() {
       speechSynthesis.cancel();
@@ -107,6 +106,7 @@
       const utterance = new SpeechSynthesisUtterance(text);
       utterance.lang = 'id-ID';
       utterance.rate = 1.0;
+      utterance.onerror = (e) => console.error("TTS error:", e);
       utterance.onend = () => {
         isSpeaking = false;
         if (voiceQueue.length > 0) {
@@ -149,7 +149,7 @@
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
           model: "meta-llama-3.1-8b-instruct",
-          messages: [
+          messages:[
                             {
                                 role: "system",
                                 content: "Always answer in rhymes."
@@ -326,65 +326,60 @@
         startRecognition();
       }
     }
-    
-function startRecognition() {
-  abortSpeech();
-  const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
-  if (!SpeechRecognition) {
-    alert("Speech Recognition tidak didukung browser ini.");
-    return;
-  }
 
-  recognitionInstance = new SpeechRecognition();
-  recognitionInstance.lang = 'id-ID';
-  recognitionInstance.interimResults = true; // ✅ Aktifkan hasil sementara
-  recognitionInstance.maxAlternatives = 1;
-
-  recognitionInstance.onstart = () => {
-    isListening = true;
-    status.textContent = "Status: Mendengarkan...";
-    updateVoiceButton(true);
-  };
-
-  recognitionInstance.onresult = (event) => {
-    let interimTranscript = '';
-    let finalTranscript = '';
-
-    for (let i = event.resultIndex; i < event.results.length; i++) {
-      const transcript = event.results[i][0].transcript;
-      if (event.results[i].isFinal) {
-        finalTranscript += transcript;
-      } else {
-        interimTranscript += transcript;
+    function startRecognition() {
+      abortSpeech();
+      const SpeechRecognition = window.SpeechRecognition || window.webkitSpeechRecognition;
+      if (!SpeechRecognition) {
+        alert("Speech Recognition tidak didukung browser ini.");
+        return;
       }
+
+      recognitionInstance = new SpeechRecognition();
+      recognitionInstance.lang = 'id-ID';
+      recognitionInstance.interimResults = true;
+      recognitionInstance.maxAlternatives = 1;
+
+      recognitionInstance.onstart = () => {
+        isListening = true;
+        status.textContent = "Status: Mendengarkan...";
+        updateVoiceButton(true);
+      };
+
+      recognitionInstance.onresult = (event) => {
+        let interimTranscript = '';
+        let finalTranscript = '';
+        for (let i = event.resultIndex; i < event.results.length; i++) {
+          const transcript = event.results[i][0].transcript;
+          if (event.results[i].isFinal) {
+            finalTranscript += transcript;
+          } else {
+            interimTranscript += transcript;
+          }
+        }
+        userInput.value = finalTranscript + interimTranscript;
+
+        if (finalTranscript.trim() !== '') {
+          status.textContent = "Status: Selesai mendengar.";
+          stopRecognition();
+          sendUserInput();
+        }
+      };
+
+      recognitionInstance.onerror = (event) => {
+        status.textContent = `Status: Error - ${event.error}`;
+        stopRecognition();
+      };
+
+      recognitionInstance.onend = () => {
+        if (isListening) {
+          status.textContent = "Status: Tidak ada suara terdeteksi.";
+          stopRecognition();
+        }
+      };
+
+      recognitionInstance.start();
     }
-
-    // Tampilkan transkrip di textarea saat bicara
-    userInput.value = finalTranscript + interimTranscript;
-
-    // Jika final selesai, otomatis kirim
-    if (finalTranscript.trim() !== '') {
-      status.textContent = "Status: Selesai mendengar.";
-      stopRecognition();
-      sendUserInput();
-    }
-  };
-
-  recognitionInstance.onerror = (event) => {
-    status.textContent = `Status: Error - ${event.error}`;
-    stopRecognition();
-  };
-
-  recognitionInstance.onend = () => {
-    if (isListening) {
-      status.textContent = "Status: Tidak ada suara terdeteksi.";
-      stopRecognition();
-    }
-  };
-
-  recognitionInstance.start();
-}
-
 
     function stopRecognition() {
       if (recognitionInstance) {
