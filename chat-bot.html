@@ -66,6 +66,20 @@
   <button onclick="sendUserInput()">🚀 Kirim</button>
 
 <script defer>
+
+  // Paksa load suara dulu
+window.speechSynthesis.onvoiceschanged = () => {
+  console.log("✅ Voice list updated");
+};
+
+  function getIndonesianVoice() {
+  const voices = speechSynthesis.getVoices();
+  return voices.find(voice =>
+    voice.lang.toLowerCase().includes('id') ||
+    voice.name.toLowerCase().includes('indonesia')
+  );
+}
+  
     const output = document.getElementById('output');
     const status = document.getElementById('status');
     const userInput = document.getElementById('userInput');
@@ -102,20 +116,28 @@
         .trim();
     }
 
-    function speak(text) {
-      const utterance = new SpeechSynthesisUtterance(text);
-      utterance.lang = 'id-ID';
-      utterance.rate = 1.0;
-      utterance.onerror = (e) => console.error("TTS error:", e);
-      utterance.onend = () => {
-        isSpeaking = false;
-        if (voiceQueue.length > 0) {
-          speak(voiceQueue.shift());
-        }
-      };
-      speechSynthesis.speak(utterance);
-      isSpeaking = true;
+function speak(text) {
+  const utterance = new SpeechSynthesisUtterance(text);
+  const voice = getIndonesianVoice();
+  if (voice) {
+    utterance.voice = voice;
+    utterance.lang = voice.lang;
+  } else {
+    utterance.lang = 'id-ID';
+    console.warn('⚠️ Suara Bahasa Indonesia tidak ditemukan, pakai default');
+  }
+
+  utterance.rate = 1.0;
+  utterance.onerror = (e) => console.error("TTS error:", e);
+  utterance.onend = () => {
+    isSpeaking = false;
+    if (voiceQueue.length > 0) {
+      speak(voiceQueue.shift());
     }
+  };
+  speechSynthesis.speak(utterance);
+  isSpeaking = true;
+}
 
     function enqueueIfSentenceComplete(text) {
       const plainText = stripMarkdown(text);
