@@ -166,7 +166,7 @@ function speak(text) {
 
     async function callChatbot(userMessage) {
       sentenceBuffer = '';
-      const response = await fetch('http://myllm.nusantaracode.com/api/v0/chat/completions', {
+      const response = await fetch('https://myllm.nusantaracode.com/api/v0/chat/completions', {
         method: 'POST',
         headers: { 'Content-Type': 'application/json' },
         body: JSON.stringify({
