@@ -3,378 +3,284 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0b6f68">
-<title>Akses e-OPen</title>
-
+<meta name="theme-color" content="#087a72">
+<title>Petunjuk Akses e-OPen</title>
 <style>
 *{box-sizing:border-box}
-
 :root{
-    --primary:#0b776f;
-    --primary-dark:#075b55;
-    --soft:#e9f6f4;
-    --text:#172126;
-    --muted:#69777d;
-    --line:#dfe8e7;
-    --bg:#f4f8f8;
+  --primary:#087a72;
+  --primary-dark:#05615b;
+  --primary-soft:#e8f7f5;
+  --bg:#f4f8f8;
+  --text:#172326;
+  --muted:#66767b;
+  --line:#dce8e6;
+  --warning:#fff8e8;
+  --warning-line:#f0dfb2;
 }
-
-html,body{
-    margin:0;
-    min-height:100%;
-}
-
+html,body{margin:0;min-height:100%}
 body{
-    min-height:100vh;
-    font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
-    color:var(--text);
-    background:
-        radial-gradient(circle at 10% 0%,rgba(11,119,111,.13),transparent 30%),
-        linear-gradient(145deg,#f1f8f7,#f8fafb);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    padding:22px;
+  min-height:100vh;
+  background:
+    radial-gradient(circle at 15% 0%,rgba(8,122,114,.14),transparent 30%),
+    linear-gradient(145deg,#f1f8f7,#f8fafb);
+  color:var(--text);
+  font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Arial,sans-serif;
+  padding:20px;
 }
-
+.wrap{width:min(520px,100%);margin:0 auto}
 .card{
-    width:min(430px,100%);
-    background:#fff;
-    border:1px solid rgba(11,119,111,.08);
-    border-radius:28px;
-    padding:30px 24px 24px;
-    box-shadow:0 18px 55px rgba(21,55,58,.12);
+  background:#fff;border:1px solid rgba(8,122,114,.08);
+  border-radius:28px;box-shadow:0 18px 60px rgba(20,58,60,.12);
+  overflow:hidden;
 }
-
+.hero{
+  padding:30px 24px 24px;text-align:center;
+  background:linear-gradient(160deg,#f4fbfa,#fff);
+}
 .logo{
-    width:70px;
-    height:70px;
-    margin:0 auto 18px;
-    border-radius:21px;
-    background:var(--soft);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:34px;
+  width:76px;height:76px;margin:0 auto 17px;border-radius:23px;
+  display:grid;place-items:center;background:var(--primary-soft);font-size:38px;
 }
-
-h1{
-    margin:0;
-    text-align:center;
-    font-size:25px;
-    letter-spacing:-.4px;
+h1{font-size:25px;line-height:1.2;margin:0 0 9px;letter-spacing:-.4px}
+.hero p{margin:0 auto;max-width:400px;color:var(--muted);font-size:13px;line-height:1.65}
+.content{padding:22px 22px 26px}
+.alert{
+  display:flex;gap:12px;padding:15px;border-radius:16px;
+  background:var(--warning);border:1px solid var(--warning-line);margin-bottom:22px;
 }
-
-.intro{
-    margin:10px auto 23px;
-    max-width:340px;
-    text-align:center;
-    color:var(--muted);
-    font-size:13px;
-    line-height:1.65;
+.alert-icon{font-size:20px;flex:0 0 auto}
+.alert strong{display:block;color:#70591c;font-size:13px;margin-bottom:4px}
+.alert span{display:block;color:#786e55;font-size:11px;line-height:1.55}
+.section-title{
+  margin:0 0 10px;font-size:12px;text-transform:uppercase;
+  letter-spacing:.7px;color:#758287;font-weight:800;
 }
-
-.notice{
-    display:flex;
-    gap:12px;
-    padding:14px;
-    margin-bottom:19px;
-    border-radius:15px;
-    background:#fff8e8;
-    border:1px solid #f0dfb3;
+.url-card{
+  border:1px solid var(--line);border-radius:16px;background:#f7faf9;padding:13px;
 }
-
-.notice-icon{
-    flex:0 0 auto;
-    font-size:18px;
-}
-
-.notice strong{
-    display:block;
-    color:#715919;
-    font-size:12px;
-    margin-bottom:3px;
-}
-
-.notice span{
-    color:#796f55;
-    font-size:11px;
-    line-height:1.5;
-}
-
-.label{
-    display:block;
-    margin-bottom:8px;
-    font-size:11px;
-    font-weight:700;
-    color:#69777d;
-    text-transform:uppercase;
-    letter-spacing:.7px;
-}
-
-.url-box{
-    display:flex;
-    align-items:center;
-    gap:10px;
-    padding:13px 14px;
-    background:#f6f9f9;
-    border:1px solid var(--line);
-    border-radius:14px;
-}
-
+.url-row{display:flex;align-items:center;gap:11px}
 .url-icon{
-    width:35px;
-    height:35px;
-    flex:0 0 auto;
-    border-radius:10px;
-    background:var(--soft);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:16px;
+  width:39px;height:39px;flex:0 0 auto;border-radius:11px;
+  display:grid;place-items:center;background:var(--primary-soft);font-size:18px;
 }
-
+.url-text{min-width:0;flex:1}
 .url{
-    min-width:0;
-    flex:1;
-    font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
-    font-size:12px;
-    font-weight:600;
-    color:#176d68;
-    overflow-wrap:anywhere;
+  color:var(--primary);font-family:ui-monospace,SFMono-Regular,Menlo,Consolas,monospace;
+  font-size:12px;font-weight:700;word-break:break-all;
 }
-
+.url-note{margin-top:3px;color:#849095;font-size:10px}
 .copy{
-    flex:0 0 auto;
-    border:0;
-    border-radius:10px;
-    padding:9px 11px;
-    background:var(--primary);
-    color:white;
-    font-size:11px;
-    font-weight:700;
-    cursor:pointer;
+  border:0;border-radius:11px;background:var(--primary);color:#fff;
+  padding:10px 12px;font-size:11px;font-weight:800;cursor:pointer;white-space:nowrap;
 }
-
-.copy:active{
-    transform:scale(.97);
-}
-
-.copy.success{
-    background:var(--primary-dark);
-}
-
-.steps{
-    margin:22px 0 0;
-    padding:0;
-    list-style:none;
-    display:grid;
-    gap:12px;
-}
-
-.step{
-    display:flex;
-    gap:11px;
-    align-items:flex-start;
-}
-
+.copy.success{background:var(--primary-dark)}
+.divider{height:1px;background:var(--line);margin:23px 0}
+.steps{display:grid;gap:15px}
+.step{display:flex;gap:12px}
 .num{
-    width:25px;
-    height:25px;
-    flex:0 0 auto;
-    border-radius:50%;
-    background:var(--soft);
-    color:var(--primary);
-    display:flex;
-    align-items:center;
-    justify-content:center;
-    font-size:11px;
-    font-weight:800;
+  width:30px;height:30px;flex:0 0 auto;border-radius:50%;
+  display:grid;place-items:center;background:var(--primary);color:#fff;
+  font-size:12px;font-weight:800;
 }
-
-.step-text{
-    padding-top:2px;
-    color:#59676c;
-    font-size:12px;
-    line-height:1.5;
-}
-
-.step-text strong{
-    color:#27353a;
-}
-
-.divider{
-    height:1px;
-    background:var(--line);
-    margin:22px 0 17px;
-}
-
-.manual{
-    text-align:center;
-    color:var(--muted);
-    font-size:11px;
-    line-height:1.55;
-}
-
+.step-body{padding-top:1px}
+.step-title{font-size:13px;font-weight:800;margin-bottom:3px}
+.step-desc{font-size:11px;line-height:1.55;color:var(--muted)}
+.browser-grid{display:grid;grid-template-columns:1fr 1fr;gap:9px;margin-top:12px}
 .browser{
-    margin-top:10px;
-    text-align:center;
-    color:#8a969a;
-    font-size:10px;
+  border:1px solid var(--line);border-radius:13px;padding:11px;
+  background:#fff;display:flex;align-items:center;gap:8px;
 }
-
-.footer{
-    margin-top:20px;
-    text-align:center;
-    color:#a1abad;
-    font-size:10px;
+.browser-icon{font-size:19px}
+.browser span{font-size:11px;font-weight:700}
+.tip{
+  margin-top:20px;padding:14px;border-radius:15px;
+  background:var(--primary-soft);color:#37625f;font-size:11px;line-height:1.6;
+}
+.tip strong{color:var(--primary-dark)}
+.manual{
+  margin-top:18px;text-align:center;padding:14px;border-radius:14px;
+  background:#f6f8f8;color:#69777b;font-size:11px;line-height:1.55;
+}
+.manual b{display:block;margin-top:5px;color:#24363a;font-size:14px;letter-spacing:.2px}
+.footer{text-align:center;padding:0 20px 22px;color:#9aa7aa;font-size:10px;line-height:1.5}
+@media(max-width:380px){
+  body{padding:12px}.content{padding:18px 16px 22px}
+  .hero{padding:25px 18px 20px}.browser-grid{grid-template-columns:1fr}
+  .copy{padding:10px}
 }
 </style>
 </head>
-
 <body>
+<div class="wrap">
+  <main class="card">
 
-<main class="card">
+    <section class="hero">
+      <div class="logo">🌐</div>
+      <h1>Akses e-OPen</h1>
+      <p>
+        e-OPen harus dibuka melalui browser di perangkat Anda.
+        Jangan membuka e-OPen dari dalam aplikasi ini.
+      </p>
+    </section>
 
-    <div class="logo">🌐</div>
+    <section class="content">
 
-    <h1>Akses e-OPen</h1>
-
-    <p class="intro">
-        e-OPen perlu dibuka menggunakan browser eksternal.
-        Silakan salin alamat di bawah, kemudian buka melalui
-        browser pada perangkat Anda.
-    </p>
-
-    <div class="notice">
-        <div class="notice-icon">⚠️</div>
+      <div class="alert">
+        <div class="alert-icon">⚠️</div>
         <div>
-            <strong>Jangan buka melalui browser aplikasi</strong>
-            <span>
-                Halaman e-OPen tidak dapat digunakan pada
-                browser yang tertanam di dalam aplikasi.
-            </span>
+          <strong>Jangan klik alamat e-OPen dari halaman ini</strong>
+          <span>
+            Halaman ini berada di dalam aplikasi. Jika e-OPen dibuka
+            dari sini, halaman dapat ditolak. Ikuti langkah di bawah
+            untuk membukanya melalui browser biasa.
+          </span>
         </div>
-    </div>
+      </div>
 
-    <label class="label">Alamat e-OPen</label>
+      <div class="section-title">Alamat yang harus dibuka</div>
 
-    <div class="url-box">
+      <div class="url-card">
+        <div class="url-row">
+          <div class="url-icon">🔗</div>
+          <div class="url-text">
+            <div class="url">https://e-open.id/</div>
+            <div class="url-note">Alamat resmi e-OPen</div>
+          </div>
+          <button class="copy" id="copyBtn" onclick="copyUrl()">SALIN</button>
+        </div>
+      </div>
 
-        <div class="url-icon">🔗</div>
+      <div class="divider"></div>
 
-        <div class="url" id="url">
-            https://e-open.id/
+      <div class="section-title">Cara membuka e-OPen</div>
+
+      <div class="steps">
+
+        <div class="step">
+          <div class="num">1</div>
+          <div class="step-body">
+            <div class="step-title">Tekan tombol SALIN</div>
+            <div class="step-desc">
+              Alamat e-OPen akan disalin. Setelah berhasil, lanjutkan
+              ke langkah berikutnya.
+            </div>
+          </div>
         </div>
 
-        <button
-            class="copy"
-            id="copyBtn"
-            type="button"
-            onclick="copyUrl()"
-        >
-            Salin
-        </button>
-
-    </div>
-
-    <ol class="steps">
-
-        <li class="step">
-            <div class="num">1</div>
-            <div class="step-text">
-                <strong>Salin alamat</strong> dengan menekan
-                tombol <strong>Salin</strong> di atas.
+        <div class="step">
+          <div class="num">2</div>
+          <div class="step-body">
+            <div class="step-title">Keluar dari halaman aplikasi ini</div>
+            <div class="step-desc">
+              Jangan membuka alamat e-OPen dari halaman dalam aplikasi.
+              Buka browser yang ada di HP Anda.
             </div>
-        </li>
+          </div>
+        </div>
 
-        <li class="step">
-            <div class="num">2</div>
-            <div class="step-text">
-                <strong>Buka browser eksternal</strong>,
-                misalnya Chrome, Firefox, Edge, atau
-                Samsung Internet.
+        <div class="step">
+          <div class="num">3</div>
+          <div class="step-body">
+            <div class="step-title">Buka browser</div>
+            <div class="step-desc">
+              Anda dapat menggunakan salah satu browser berikut:
             </div>
-        </li>
-
-        <li class="step">
-            <div class="num">3</div>
-            <div class="step-text">
-                <strong>Tempel alamat</strong> pada address bar
-                browser, lalu tekan Enter.
+            <div class="browser-grid">
+              <div class="browser"><div class="browser-icon">🌐</div><span>Chrome</span></div>
+              <div class="browser"><div class="browser-icon">🦊</div><span>Firefox</span></div>
+              <div class="browser"><div class="browser-icon">🔵</div><span>Edge</span></div>
+              <div class="browser"><div class="browser-icon">🌐</div><span>Samsung Internet</span></div>
             </div>
-        </li>
+          </div>
+        </div>
 
-    </ol>
+        <div class="step">
+          <div class="num">4</div>
+          <div class="step-body">
+            <div class="step-title">Tempel alamat pada kolom alamat browser</div>
+            <div class="step-desc">
+              Tekan kolom alamat di bagian paling atas browser,
+              lalu pilih <b>Tempel / Paste</b>.
+            </div>
+          </div>
+        </div>
 
-    <div class="divider"></div>
+        <div class="step">
+          <div class="num">5</div>
+          <div class="step-body">
+            <div class="step-title">Tekan Enter / Buka</div>
+            <div class="step-desc">
+              Setelah alamat muncul, tekan tombol <b>Enter</b>,
+              <b>Go</b>, atau <b>Buka</b>. e-OPen kemudian akan
+              dibuka di browser eksternal.
+            </div>
+          </div>
+        </div>
 
-    <div class="manual">
-        Atau buka browser secara manual dan ketik:
-        <strong>e-open.id</strong>
-    </div>
+      </div>
 
-    <div class="browser">
-        🔒 Pastikan alamat dimulai dengan <strong>https://</strong>
-    </div>
+      <div class="tip">
+        <strong>💡 Tidak mau menyalin?</strong><br>
+        Anda juga bisa membuka Chrome atau browser lain secara manual,
+        kemudian ketik <strong>e-open.id</strong> pada kolom alamat.
+      </div>
+
+      <div class="manual">
+        <div>Alamat yang bisa diketik secara manual:</div>
+        <b>e-open.id</b>
+      </div>
+
+    </section>
 
     <div class="footer">
-        e-OPen · Akses melalui browser eksternal
+      Pastikan alamat dimulai dengan <b>https://</b><br>
+      Gunakan browser eksternal untuk mengakses layanan e-OPen.
     </div>
 
-</main>
+  </main>
+</div>
 
 <script>
 const EOPEN_URL = "https://e-open.id/";
 
+function copied(){
+  const btn=document.getElementById("copyBtn");
+  btn.textContent="✓ TERSALIN";
+  btn.classList.add("success");
+  setTimeout(()=>{
+    btn.textContent="SALIN";
+    btn.classList.remove("success");
+  },2200);
+}
+
+function fallbackCopy(){
+  const area=document.createElement("textarea");
+  area.value=EOPEN_URL;
+  area.setAttribute("readonly","");
+  area.style.position="fixed";
+  area.style.left="-9999px";
+  document.body.appendChild(area);
+  area.select();
+  try{
+    document.execCommand("copy");
+    copied();
+  }catch(e){
+    const btn=document.getElementById("copyBtn");
+    btn.textContent="SALIN MANUAL";
+  }
+  document.body.removeChild(area);
+}
+
 function copyUrl(){
-
-    const button = document.getElementById("copyBtn");
-
-    function success(){
-        button.textContent = "✓ Tersalin";
-        button.classList.add("success");
-
-        setTimeout(() => {
-            button.textContent = "Salin";
-            button.classList.remove("success");
-        }, 1800);
-    }
-
-    function fallback(){
-
-        const input = document.createElement("textarea");
-
-        input.value = EOPEN_URL;
-        input.setAttribute("readonly","");
-        input.style.position = "fixed";
-        input.style.opacity = "0";
-
-        document.body.appendChild(input);
-        input.select();
-
-        try{
-            document.execCommand("copy");
-            success();
-        }catch(e){
-            button.textContent = "Salin manual";
-        }
-
-        document.body.removeChild(input);
-    }
-
-    if(navigator.clipboard && window.isSecureContext){
-
-        navigator.clipboard
-            .writeText(EOPEN_URL)
-            .then(success)
-            .catch(fallback);
-
-    }else{
-        fallback();
-    }
+  if(navigator.clipboard && window.isSecureContext){
+    navigator.clipboard.writeText(EOPEN_URL)
+      .then(copied)
+      .catch(fallbackCopy);
+  }else{
+    fallbackCopy();
+  }
 }
 </script>
-
 </body>
 </html>
