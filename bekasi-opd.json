@@ -1,0 +1,644 @@
+[
+  {
+    "name": "Bekasikota",
+    "host": "bekasikota.go.id",
+    "url": "https://bekasikota.go.id",
+    "category": "Portal Utama"
+  },
+  {
+    "name": "Badan Pendapatan Daerah",
+    "host": "bapenda.bekasikota.go.id",
+    "url": "http://bapenda.bekasikota.go.id/bapenda-bekasi/",
+    "category": "OPD"
+  },
+  {
+    "name": "Bakesbangpol",
+    "host": "kesbangpol.bekasikota.go.id",
+    "url": "https://kesbangpol.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Bapperida",
+    "host": "bapperida.bekasikota.go.id",
+    "url": "https://bapperida.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "BPBD",
+    "host": "bpbd.bekasikota.go.id",
+    "url": "https://bpbd.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "BPKAD",
+    "host": "bpkad.bekasikota.go.id",
+    "url": "https://bpkad.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Damkar",
+    "host": "disdamkarmat.bekasikota.go.id",
+    "url": "https://disdamkarmat.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "DBMSDA",
+    "host": "dbmsda.bekasikota.go.id",
+    "url": "https://dbmsda.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Dinas Ketahanan Pangan Perikanan dan Pertanian",
+    "host": "dkppp.bekasikota.go.id",
+    "url": "https://dkppp.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Dinas Lingkungan Hidup",
+    "host": "dlh.bekasikota.go.id",
+    "url": "https://dlh.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Dinkes",
+    "host": "dinkes.bekasikota.go.id",
+    "url": "https://dinkes.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Dinsos",
+    "host": "dinsos.bekasikota.go.id",
+    "url": "https://dinsos.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Disarpusda",
+    "host": "disarpusda.bekasikota.go.id",
+    "url": "https://disarpusda.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Disdagperin",
+    "host": "disdagperin.bekasikota.go.id",
+    "url": "http://disdagperin.bekasikota.go.id/home",
+    "category": "OPD"
+  },
+  {
+    "name": "Disdik",
+    "host": "disdik.bekasikota.go.id",
+    "url": "https://disdik.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Disdukcapil",
+    "host": "disdukcapil.bekasikota.go.id",
+    "url": "https://disdukcapil.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Dishub",
+    "host": "dishub.bekasikota.go.id",
+    "url": "https://dishub.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Diskominfostandi",
+    "host": "diskominfo.bekasikota.go.id",
+    "url": "https://diskominfo.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Disnaker",
+    "host": "disnaker.bekasikota.go.id",
+    "url": "https://disnaker.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Disparbud",
+    "host": "disparbud.bekasikota.go.id",
+    "url": "http://disparbud.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Disperkimtan",
+    "host": "disperkimtan.bekasikota.go.id",
+    "url": "https://disperkimtan.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Dispora",
+    "host": "dispora.bekasikota.go.id",
+    "url": "https://dispora.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Distaru",
+    "host": "distaru.bekasikota.go.id",
+    "url": "https://distaru.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "DKUKM",
+    "host": "dkukm.bekasikota.go.id",
+    "url": "https://dkukm.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "DPMPTSP",
+    "host": "dpmptsp.bekasikota.go.id",
+    "url": "https://dpmptsp.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "DPPKB",
+    "host": "dppkb.bekasikota.go.id",
+    "url": "https://dppkb.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "DPPPA",
+    "host": "dpppa.bekasikota.go.id",
+    "url": "https://dpppa.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "DPRD",
+    "host": "dprd.bekasikota.go.id",
+    "url": "https://dprd.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Inspektorat",
+    "host": "inspektorat.bekasikota.go.id",
+    "url": "https://inspektorat.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "Satpol PP",
+    "host": "satpolpp.bekasikota.go.id",
+    "url": "https://satpolpp.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "SETDA",
+    "host": "setda.bekasikota.go.id",
+    "url": "https://setda.bekasikota.go.id",
+    "category": "OPD"
+  },
+  {
+    "name": "RSUD dr. Chasbullah Abdulmadjid",
+    "host": "rsud.bekasikota.go.id",
+    "url": "https://rsud.bekasikota.go.id/",
+    "category": "OPD"
+  },
+  {
+    "name": "Kec. Bantargebang",
+    "host": "kec-bantargebang.bekasikota.go.id",
+    "url": "https://kec-bantargebang.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Bekasi Barat",
+    "host": "kec-bekasibarat.bekasikota.go.id",
+    "url": "https://kec-bekasibarat.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Bekasi Selatan",
+    "host": "kec-bekasiselatan.bekasikota.go.id",
+    "url": "https://kec-bekasiselatan.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Bekasi Timur",
+    "host": "kec-bekasitimur.bekasikota.go.id",
+    "url": "https://kec-bekasitimur.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Bekasi Utara",
+    "host": "kec-bekasiutara.bekasikota.go.id",
+    "url": "https://kec-bekasiutara.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Jatiasih",
+    "host": "kec-jatiasih.bekasikota.go.id",
+    "url": "https://kec-jatiasih.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Jatisampurna",
+    "host": "kec-jatisampurna.bekasikota.go.id",
+    "url": "https://kec-jatisampurna.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Medansatria",
+    "host": "kec-medansatria.bekasikota.go.id",
+    "url": "https://kec-medansatria.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Mustikajaya",
+    "host": "kec-mustikajaya.bekasikota.go.id",
+    "url": "https://kec-mustikajaya.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Pondokgede",
+    "host": "kec-pondokgede.bekasikota.go.id",
+    "url": "https://kec-pondokgede.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Pondokmelati",
+    "host": "kec-pondokmelati.bekasikota.go.id",
+    "url": "https://kec-pondokmelati.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "Kec. Rawalumbu",
+    "host": "kec-rawalumbu.bekasikota.go.id",
+    "url": "https://kec-rawalumbu.bekasikota.go.id",
+    "category": "Kecamatan"
+  },
+  {
+    "name": "kel-arenjaya",
+    "host": "kel-arenjaya.bekasikota.go.id",
+    "url": "https://kel-arenjaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-bantargebang",
+    "host": "kel-bantargebang.bekasikota.go.id",
+    "url": "https://kel-bantargebang.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-bekasijaya",
+    "host": "kel-bekasijaya.bekasikota.go.id",
+    "url": "https://kel-bekasijaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-bintara",
+    "host": "kel-bintara.bekasikota.go.id",
+    "url": "https://kel-bintara.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-bintarajaya",
+    "host": "kel-bintarajaya.bekasikota.go.id",
+    "url": "https://kel-bintarajaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-bojongmenteng",
+    "host": "kel-bojongmenteng.bekasikota.go.id",
+    "url": "https://kel-bojongmenteng.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-bojongrawalumbu",
+    "host": "kel-bojongrawalumbu.bekasikota.go.id",
+    "url": "https://kel-bojongrawalumbu.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-ciketingudik",
+    "host": "kel-ciketingudik.bekasikota.go.id",
+    "url": "https://kel-ciketingudik.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-cikiwul",
+    "host": "kel-cikiwul.bekasikota.go.id",
+    "url": "https://kel-cikiwul.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-cimuning",
+    "host": "kel-cimuning.bekasikota.go.id",
+    "url": "https://kel-cimuning.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-durenjaya",
+    "host": "kel-durenjaya.bekasikota.go.id",
+    "url": "https://kel-durenjaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-harapanbaru",
+    "host": "kel-harapanbaru.bekasikota.go.id",
+    "url": "https://kel-harapanbaru.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-harapanjaya",
+    "host": "kel-harapanjaya.bekasikota.go.id",
+    "url": "https://kel-harapanjaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-harapanmulya",
+    "host": "kel-harapanmulya.bekasikota.go.id",
+    "url": "https://kel-harapanmulya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jakamulya",
+    "host": "kel-jakamulya.bekasikota.go.id",
+    "url": "https://kel-jakamulya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jakasampurna",
+    "host": "kel-jakasampurna.bekasikota.go.id",
+    "url": "https://kel-jakasampurna.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jakasetia",
+    "host": "kel-jakasetia.bekasikota.go.id",
+    "url": "https://kel-jakasetia.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatiasih",
+    "host": "kel-jatiasih.bekasikota.go.id",
+    "url": "https://kel-jatiasih.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatibening",
+    "host": "kel-jatibening.bekasikota.go.id",
+    "url": "https://kel-jatibening.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatibeningbaru",
+    "host": "kel-jatibeningbaru.bekasikota.go.id",
+    "url": "https://kel-jatibeningbaru.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jaticempaka",
+    "host": "kel-jaticempaka.bekasikota.go.id",
+    "url": "https://kel-jaticempaka.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatikarya",
+    "host": "kel-jatikarya.bekasikota.go.id",
+    "url": "https://kel-jatikarya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatikramat",
+    "host": "kel-jatikramat.bekasikota.go.id",
+    "url": "https://kel-jatikramat.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatiluhur",
+    "host": "kel-jatiluhur.bekasikota.go.id",
+    "url": "https://kel-jatiluhur.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatimakmur",
+    "host": "kel-jatimakmur.bekasikota.go.id",
+    "url": "https://kel-jatimakmur.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatimekar",
+    "host": "kel-jatimekar.bekasikota.go.id",
+    "url": "https://kel-jatimekar.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatimelati",
+    "host": "kel-jatimelati.bekasikota.go.id",
+    "url": "https://kel-jatimelati.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatimurni",
+    "host": "kel-jatimurni.bekasikota.go.id",
+    "url": "https://kel-jatimurni.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatiraden",
+    "host": "kel-jatiraden.bekasikota.go.id",
+    "url": "https://kel-jatiraden.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatirahayu",
+    "host": "kel-jatirahayu.bekasikota.go.id",
+    "url": "https://kel-jatirahayu.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatirangga",
+    "host": "kel-jatirangga.bekasikota.go.id",
+    "url": "https://kel-jatirangga.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatiranggon",
+    "host": "kel-jatiranggon.bekasikota.go.id",
+    "url": "https://kel-jatiranggon.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatirasa",
+    "host": "kel-jatirasa.bekasikota.go.id",
+    "url": "https://kel-jatirasa.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatisampurna",
+    "host": "kel-jatisampurna.bekasikota.go.id",
+    "url": "https://kel-jatisampurna.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatisari",
+    "host": "kel-jatisari.bekasikota.go.id",
+    "url": "https://kel-jatisari.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatiwaringin",
+    "host": "kel-jatiwaringin.bekasikota.go.id",
+    "url": "https://kel-jatiwaringin.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-jatiwarna",
+    "host": "kel-jatiwarna.bekasikota.go.id",
+    "url": "https://kel-jatiwarna.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-kaliabangtengah",
+    "host": "kel-kaliabangtengah.bekasikota.go.id",
+    "url": "https://kel-kaliabangtengah.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-kalibaru",
+    "host": "kel-kalibaru.bekasikota.go.id",
+    "url": "https://kel-kalibaru.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-kayuringinjaya",
+    "host": "kel-kayuringinjaya.bekasikota.go.id",
+    "url": "https://kel-kayuringinjaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-kotabaru",
+    "host": "kel-kotabaru.bekasikota.go.id",
+    "url": "https://kel-kotabaru.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-kranji",
+    "host": "kel-kranji.bekasikota.go.id",
+    "url": "https://kel-kranji.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-margahayu",
+    "host": "kel-margahayu.bekasikota.go.id",
+    "url": "https://kel-margahayu.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-margajaya",
+    "host": "kel-margajaya.bekasikota.go.id",
+    "url": "https://kel-margajaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-margamulya",
+    "host": "kel-margamulya.bekasikota.go.id",
+    "url": "https://kel-margamulya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-medansatria",
+    "host": "kel-medansatria.bekasikota.go.id",
+    "url": "https://kel-medansatria.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-mustikajaya",
+    "host": "kel-mustikajaya.bekasikota.go.id",
+    "url": "https://kel-mustikajaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-mustikasari",
+    "host": "kel-mustikasari.bekasikota.go.id",
+    "url": "https://kel-mustikasari.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-padurenan",
+    "host": "kel-padurenan.bekasikota.go.id",
+    "url": "https://kel-padurenan.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-pejuang",
+    "host": "kel-pejuang.bekasikota.go.id",
+    "url": "https://kel-pejuang.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-pekayonjaya",
+    "host": "kel-pekayonjaya.bekasikota.go.id",
+    "url": "https://kel-pekayonjaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-pengasinan",
+    "host": "kel-pengasinan.bekasikota.go.id",
+    "url": "https://kel-pengasinan.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-perwira",
+    "host": "kel-perwira.bekasikota.go.id",
+    "url": "https://kel-perwira.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-sepanjangjaya",
+    "host": "kel-sepanjangjaya.bekasikota.go.id",
+    "url": "https://kel-sepanjangjaya.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-sumurbatu",
+    "host": "kel-sumurbatu.bekasikota.go.id",
+    "url": "https://kel-sumurbatu.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kel-telukpucung",
+    "host": "kel-telukpucung.bekasikota.go.id",
+    "url": "https://kel-telukpucung.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "kelurahan",
+    "host": "kelurahan.bekasikota.go.id",
+    "url": "https://kelurahan.bekasikota.go.id",
+    "category": "Kelurahan"
+  },
+  {
+    "name": "Karang Kitri",
+    "host": "puskesmas-karangkitri.bekasikota.go.id",
+    "url": "https://puskesmas-karangkitri.bekasikota.go.id",
+    "category": "Puskesmas"
+  },
+  {
+    "name": "Puskes BJM",
+    "host": "puskesmas-bojongmenteng.bekasikota.go.id",
+    "url": "https://puskesmas-bojongmenteng.bekasikota.go.id",
+    "category": "Puskesmas"
+  },
+  {
+    "name": "Puskes BTG",
+    "host": "puskesmas-bantargebang.bekasikota.go.id",
+    "url": "https://puskesmas-bantargebang.bekasikota.go.id",
+    "category": "Puskesmas"
+  },
+  {
+    "name": "puskesmas-ciketingudik",
+    "host": "puskesmas-ciketingudik.bekasikota.go.id",
+    "url": "https://puskesmas-ciketingudik.bekasikota.go.id",
+    "category": "Puskesmas"
+  },
+  {
+    "name": "puskesmas-cimuning",
+    "host": "puskesmas-cimuning.bekasikota.go.id",
+    "url": "https://puskesmas-cimuning.bekasikota.go.id",
+    "category": "Puskesmas"
+  },
+  {
+    "name": "puskesmas-durenjaya",
+    "host": "puskesmas-durenjaya.bekasikota.go.id",
+    "url": "https://puskesmas-durenjaya.bekasikota.go.id",
+    "category": "Puskesmas"
+  }
+]
