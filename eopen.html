@@ -1,209 +1,665 @@
 <!DOCTYPE html>
 <html lang="id">
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
-<meta name="theme-color" content="#0b1020">
-<title>e-OPen — Buka di Browser</title>
-<style>
-    * { box-sizing: border-box; }
-    html, body { margin: 0; min-height: 100%; }
-    body {
-        font-family: Inter, -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Arial, sans-serif;
-        background:
-            radial-gradient(circle at 20% 10%, rgba(59,130,246,.20), transparent 32%),
-            radial-gradient(circle at 85% 85%, rgba(99,102,241,.18), transparent 34%),
-            #080c18;
-        color: #eef2ff;
-        min-height: 100vh;
-        display: flex;
-        align-items: center;
-        justify-content: center;
-        padding: 24px;
-        overflow: hidden;
-    }
+    <meta charset="UTF-8">
 
-    .orb {
-        position: fixed;
-        width: 280px;
-        height: 280px;
-        border-radius: 50%;
-        background: rgba(37,99,235,.12);
-        filter: blur(70px);
-        pointer-events: none;
-    }
-    .orb.one { top: -100px; left: -80px; }
-    .orb.two { right: -100px; bottom: -100px; background: rgba(124,58,237,.12); }
+    <meta
+        name="viewport"
+        content="width=device-width, initial-scale=1.0, viewport-fit=cover"
+    >
 
-    .card {
-        width: min(430px, 100%);
-        position: relative;
-        background: rgba(15,23,42,.78);
-        border: 1px solid rgba(148,163,184,.16);
-        border-radius: 28px;
-        padding: 34px 26px 25px;
-        text-align: center;
-        box-shadow: 0 25px 80px rgba(0,0,0,.45);
-        backdrop-filter: blur(18px);
-    }
+    <meta name="theme-color" content="#0f766e">
 
-    .icon {
-        width: 76px;
-        height: 76px;
-        margin: 0 auto 20px;
-        border-radius: 22px;
-        display: grid;
-        place-items: center;
-        background: linear-gradient(145deg, #2563eb, #4f46e5);
-        box-shadow: 0 14px 35px rgba(37,99,235,.28);
-        font-size: 36px;
-    }
+    <title>e-OPen Launcher</title>
 
-    h1 {
-        margin: 0;
-        font-size: 26px;
-        letter-spacing: -.5px;
-    }
+    <style>
+        * {
+            box-sizing: border-box;
+        }
 
-    .subtitle {
-        margin: 11px auto 25px;
-        color: #aab4c8;
-        line-height: 1.55;
-        font-size: 14px;
-        max-width: 330px;
-    }
+        html,
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100%;
+            font-family:
+                -apple-system,
+                BlinkMacSystemFont,
+                "Segoe UI",
+                Roboto,
+                Arial,
+                sans-serif;
+            background: #f4f7f8;
+            color: #172026;
+        }
 
-    .url {
-        display: flex;
-        align-items: center;
-        gap: 10px;
-        text-align: left;
-        padding: 13px 15px;
-        margin-bottom: 15px;
-        border-radius: 14px;
-        background: rgba(2,6,23,.48);
-        border: 1px solid rgba(148,163,184,.12);
-        color: #dbeafe;
-        font-size: 13px;
-    }
+        body {
+            min-height: 100vh;
+        }
 
-    .url span:first-child { font-size: 18px; }
-    .url strong { display: block; font-weight: 600; }
-    .url small { color: #7f8ba3; }
+        .header {
+            background: linear-gradient(
+                135deg,
+                #159c91,
+                #087f78
+            );
 
-    button {
-        width: 100%;
-        border: 0;
-        border-radius: 15px;
-        padding: 15px 18px;
-        color: white;
-        background: linear-gradient(135deg, #2563eb, #4f46e5);
-        font-size: 15px;
-        font-weight: 700;
-        cursor: pointer;
-        box-shadow: 0 12px 30px rgba(37,99,235,.25);
-        transition: transform .15s ease, filter .15s ease;
-    }
+            color: white;
+            padding:
+                calc(18px + env(safe-area-inset-top))
+                22px
+                18px;
 
-    button:active { transform: scale(.98); }
-    button:hover { filter: brightness(1.08); }
+            box-shadow:
+                0 4px 18px rgba(0, 0, 0, .12);
+        }
 
-    .secondary {
-        margin-top: 12px;
-        color: #8e9ab0;
-        font-size: 12px;
-        line-height: 1.5;
-    }
+        .header-content {
+            max-width: 520px;
+            margin: auto;
+            display: flex;
+            align-items: center;
+            gap: 14px;
+        }
 
-    .status {
-        display: none;
-        margin-top: 16px;
-        padding: 11px 13px;
-        border-radius: 12px;
-        background: rgba(30,41,59,.7);
-        color: #cbd5e1;
-        font-size: 12px;
-    }
+        .logo {
+            width: 48px;
+            height: 48px;
+            border-radius: 14px;
 
-    .footer {
-        margin-top: 22px;
-        color: #58657c;
-        font-size: 11px;
-    }
-</style>
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: rgba(255, 255, 255, .18);
+            font-size: 25px;
+        }
+
+        .header h1 {
+            margin: 0;
+            font-size: 22px;
+            font-weight: 700;
+        }
+
+        .header p {
+            margin: 3px 0 0;
+            font-size: 12px;
+            opacity: .82;
+        }
+
+        .container {
+            max-width: 520px;
+            margin: auto;
+            padding: 28px 18px 40px;
+        }
+
+        .hero {
+            text-align: center;
+            margin-bottom: 25px;
+        }
+
+        .hero-icon {
+            width: 82px;
+            height: 82px;
+            margin: 5px auto 18px;
+
+            border-radius: 24px;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            background: white;
+
+            box-shadow:
+                0 8px 30px rgba(0, 0, 0, .08);
+
+            font-size: 40px;
+        }
+
+        .hero h2 {
+            margin: 0;
+            font-size: 25px;
+        }
+
+        .hero p {
+            color: #66737b;
+            line-height: 1.6;
+            font-size: 14px;
+            margin: 10px auto 0;
+            max-width: 400px;
+        }
+
+        .target {
+            background: white;
+            border-radius: 16px;
+            padding: 15px 17px;
+            margin-bottom: 22px;
+
+            box-shadow:
+                0 5px 20px rgba(0, 0, 0, .06);
+
+            display: flex;
+            align-items: center;
+            gap: 13px;
+        }
+
+        .target-icon {
+            width: 42px;
+            height: 42px;
+            border-radius: 12px;
+
+            background: #e5f6f4;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 20px;
+        }
+
+        .target strong {
+            display: block;
+            font-size: 14px;
+        }
+
+        .target span {
+            display: block;
+            margin-top: 3px;
+            color: #75828a;
+            font-size: 12px;
+        }
+
+        .methods {
+            display: grid;
+            gap: 12px;
+        }
+
+        .method {
+            width: 100%;
+            border: 1px solid #e0e6e8;
+            background: white;
+
+            border-radius: 16px;
+            padding: 16px;
+
+            text-align: left;
+            cursor: pointer;
+
+            display: flex;
+            align-items: center;
+            gap: 14px;
+
+            transition:
+                transform .12s ease,
+                box-shadow .12s ease,
+                border-color .12s ease;
+        }
+
+        .method:active {
+            transform: scale(.985);
+        }
+
+        .method:hover {
+            border-color: #9bd7d2;
+            box-shadow:
+                0 6px 20px rgba(0, 0, 0, .07);
+        }
+
+        .method-icon {
+            width: 46px;
+            height: 46px;
+            flex-shrink: 0;
+
+            border-radius: 13px;
+
+            background: #f0f4f5;
+
+            display: flex;
+            align-items: center;
+            justify-content: center;
+
+            font-size: 21px;
+        }
+
+        .method-content {
+            flex: 1;
+        }
+
+        .method-title {
+            font-size: 14px;
+            font-weight: 700;
+        }
+
+        .method-description {
+            margin-top: 4px;
+            color: #78858c;
+            font-size: 12px;
+            line-height: 1.4;
+        }
+
+        .arrow {
+            color: #9aa5aa;
+            font-size: 20px;
+        }
+
+        .status-box {
+            display: none;
+
+            margin-top: 18px;
+
+            background: #102c2a;
+            color: #d9fffb;
+
+            border-radius: 14px;
+
+            padding: 14px 16px;
+
+            font-size: 12px;
+            line-height: 1.5;
+        }
+
+        .status-box.show {
+            display: block;
+        }
+
+        .status-title {
+            font-weight: 700;
+            margin-bottom: 4px;
+        }
+
+        .info {
+            margin-top: 24px;
+            padding: 15px;
+
+            border-radius: 14px;
+
+            background: #fff9e8;
+            border: 1px solid #f2dfaa;
+
+            color: #765d16;
+
+            font-size: 12px;
+            line-height: 1.55;
+        }
+
+        .footer {
+            text-align: center;
+            margin-top: 28px;
+
+            color: #9aa5aa;
+            font-size: 11px;
+        }
+
+        @media (prefers-color-scheme: dark) {
+            html,
+            body {
+                background: #101617;
+                color: #eef5f4;
+            }
+
+            .target,
+            .method {
+                background: #182021;
+                border-color: #293537;
+            }
+
+            .target span,
+            .method-description,
+            .hero p {
+                color: #9eacab;
+            }
+
+            .method-icon {
+                background: #222d2e;
+            }
+
+            .hero-icon {
+                background: #182021;
+            }
+
+            .info {
+                background: #292511;
+                border-color: #5b4c1e;
+                color: #e9d78b;
+            }
+        }
+    </style>
 </head>
 
 <body>
-<div class="orb one"></div>
-<div class="orb two"></div>
 
-<main class="card">
-    <div class="icon">🌐</div>
+<header class="header">
+    <div class="header-content">
 
-    <h1>Buka e-OPen</h1>
-
-    <p class="subtitle">
-        e-OPen perlu dibuka menggunakan browser eksternal.
-        Tekan tombol di bawah untuk melanjutkan.
-    </p>
-
-    <div class="url">
-        <span>🔗</span>
-        <div>
-            <strong>e-open.id</strong>
-            <small>Portal e-OPen</small>
+        <div class="logo">
+            🌐
         </div>
+
+        <div>
+            <h1>e-OPen</h1>
+            <p>Portal layanan e-OPen</p>
+        </div>
+
+    </div>
+</header>
+
+
+<main class="container">
+
+    <section class="hero">
+
+        <div class="hero-icon">
+            🔐
+        </div>
+
+        <h2>Buka e-OPen</h2>
+
+        <p>
+            Pilih metode pembukaan di bawah.
+            Halaman ini dirancang untuk menguji apakah
+            aplikasi dapat membuka e-OPen melalui browser eksternal.
+        </p>
+
+    </section>
+
+
+    <section class="target">
+
+        <div class="target-icon">
+            🔗
+        </div>
+
+        <div>
+            <strong>Tujuan</strong>
+            <span>https://e-open.id/</span>
+        </div>
+
+    </section>
+
+
+    <section class="methods">
+
+        <!-- METHOD 1 -->
+        <button
+            class="method"
+            onclick="openNormal()"
+        >
+
+            <div class="method-icon">
+                🌐
+            </div>
+
+            <div class="method-content">
+
+                <div class="method-title">
+                    Metode 1 — HTTPS Biasa
+                </div>
+
+                <div class="method-description">
+                    Membuka e-OPen melalui navigasi normal.
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </button>
+
+
+        <!-- METHOD 2 -->
+        <a
+            class="method"
+            href="https://e-open.id/"
+            target="_blank"
+            rel="noopener noreferrer"
+            style="text-decoration:none;color:inherit"
+        >
+
+            <div class="method-icon">
+                ↗️
+            </div>
+
+            <div class="method-content">
+
+                <div class="method-title">
+                    Metode 2 — New Window
+                </div>
+
+                <div class="method-description">
+                    Menggunakan target="_blank".
+                    Tergantung konfigurasi WebView.
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </a>
+
+
+        <!-- METHOD 3 -->
+        <button
+            class="method"
+            onclick="openWindow()"
+        >
+
+            <div class="method-icon">
+                🪟
+            </div>
+
+            <div class="method-content">
+
+                <div class="method-title">
+                    Metode 3 — window.open()
+                </div>
+
+                <div class="method-description">
+                    Meminta WebView membuat window baru.
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </button>
+
+
+        <!-- METHOD 4 -->
+        <button
+            class="method"
+            onclick="openIntent()"
+        >
+
+            <div class="method-icon">
+                📱
+            </div>
+
+            <div class="method-content">
+
+                <div class="method-title">
+                    Metode 4 — Android Intent
+                </div>
+
+                <div class="method-description">
+                    Menggunakan intent:// untuk meminta
+                    Android menangani URL.
+                </div>
+
+            </div>
+
+            <div class="arrow">
+                ›
+            </div>
+
+        </button>
+
+    </section>
+
+
+    <div
+        id="status"
+        class="status-box"
+    >
+
+        <div
+            id="statusTitle"
+            class="status-title"
+        >
+            Status
+        </div>
+
+        <div id="statusText"></div>
+
     </div>
 
-    <button id="openBtn" onclick="openEopen()">
-        Buka e-OPen di Browser
-    </button>
 
-    <div id="status" class="status">
-        Membuka browser eksternal…
+    <div class="info">
+
+        <strong>Catatan pengujian</strong><br>
+
+        Jika Metode 4 menghasilkan
+        <strong>ERR_UNKNOWN_URL_SCHEME</strong>,
+        berarti WebView mencoba memuat
+        <code>intent://</code> sebagai URL sendiri.
+
+        Jika Metode 2 atau 3 berhasil membuka browser,
+        kita bisa menggunakan metode tersebut tanpa
+        membutuhkan APK e-OPen.
+
     </div>
 
-    <div class="secondary">
-        Jika browser tidak terbuka otomatis, tekan tombol sekali lagi.
-    </div>
 
     <div class="footer">
-        Secure external browser launcher
+        e-OPen External Browser Launcher
     </div>
+
 </main>
 
+
 <script>
-const TARGET = "https://e-open.id/";
 
-function openEopen() {
-    const status = document.getElementById("status");
-    const button = document.getElementById("openBtn");
+    const TARGET = "https://e-open.id/";
 
-    status.style.display = "block";
-    button.textContent = "Membuka…";
+    function showStatus(title, message) {
 
-    // Android Intent: minta Android menangani URL melalui aplikasi eksternal.
-    const intent =
-        "intent://e-open.id/#Intent;" +
-        "scheme=https;" +
-        "action=android.intent.action.VIEW;" +
-        "category=android.intent.category.BROWSABLE;" +
-        "end";
+        const box = document.getElementById("status");
+        const titleElement =
+            document.getElementById("statusTitle");
+        const textElement =
+            document.getElementById("statusText");
 
-    try {
-        window.location.href = intent;
-    } catch (e) {
-        // Fallback jika intent tidak didukung.
-        window.location.href = TARGET;
+        titleElement.textContent = title;
+        textElement.textContent = message;
+
+        box.classList.add("show");
     }
 
-    // Fallback tambahan untuk WebView yang tidak menjalankan intent://.
-    setTimeout(() => {
-        if (!document.hidden) {
+
+    /*
+     * METHOD 1
+     *
+     * Navigasi HTTPS normal.
+     */
+    function openNormal() {
+
+        showStatus(
+            "Metode 1 dijalankan",
+            "Membuka https://e-open.id/ melalui navigasi normal..."
+        );
+
+        setTimeout(function () {
+
             window.location.href = TARGET;
+
+        }, 150);
+
+    }
+
+
+    /*
+     * METHOD 3
+     *
+     * window.open()
+     */
+    function openWindow() {
+
+        showStatus(
+            "Metode 3 dijalankan",
+            "Meminta WebView membuka window baru..."
+        );
+
+        const newWindow =
+            window.open(
+                TARGET,
+                "_blank",
+                "noopener,noreferrer"
+            );
+
+        /*
+         * Beberapa WebView mengembalikan null
+         * apabila popup diblokir.
+         */
+        if (!newWindow) {
+
+            showStatus(
+                "window.open diblokir",
+                "WebView tidak mengizinkan pembuatan window baru."
+            );
+
         }
-    }, 1800);
-}
+
+    }
+
+
+    /*
+     * METHOD 4
+     *
+     * Android Intent URL.
+     *
+     * Ini yang sebelumnya menghasilkan:
+     *
+     * ERR_UNKNOWN_URL_SCHEME
+     *
+     * Kita pertahankan sebagai test.
+     */
+    function openIntent() {
+
+        showStatus(
+            "Metode 4 dijalankan",
+            "Mencoba Android intent://..."
+        );
+
+        const intent =
+            "intent://e-open.id/#Intent;" +
+            "scheme=https;" +
+            "action=android.intent.action.VIEW;" +
+            "category=android.intent.category.BROWSABLE;" +
+            "end";
+
+        window.location.href = intent;
+
+    }
+
+
+    /*
+     * Tampilkan informasi User-Agent.
+     *
+     * Ini membantu mengetahui apakah halaman
+     * memang berada di Android WebView.
+     */
+    console.log(
+        "User-Agent:",
+        navigator.userAgent
+    );
+
 </script>
+
 </body>
 </html>
